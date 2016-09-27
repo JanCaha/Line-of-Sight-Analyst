@@ -11,7 +11,7 @@ class ExtractLocalHorizons(object):
         """Define the tool (tool name is the name of the class)."""
         self.label = "Extraction of Local Horizons"
         self.description = "A tool for extraction of local horizons from lines of sight."
-        self.canRunInBackground = True
+        self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""

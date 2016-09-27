@@ -1,6 +1,5 @@
 # coding=utf-8
 import math
-
 import arcpy
 
 import functions_validation as fv
@@ -132,7 +131,7 @@ class ExportLoS(object):
 
         if parameters[0].value:
             parameters[1].filter.type = "ValueList"
-            parameters[1].filter.list = fv.uniqueValues(parameters[0].valueAsText, "OBJECTID")
+            parameters[1].filter.list = fv.uniqueValues(parameters[0].valueAsText, arcpy.Describe(parameters[0].value).OIDFieldName) #"OBJECTID")
 
         if parameters[0].value:
             if parameters[3].value == True:
@@ -152,14 +151,17 @@ class ExportLoS(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 0)
 
+        ### oid_fieldname = arcpy.Describe(fc).OIDFieldName
+        """"
         if parameters[0].value:
-            field = "OBJECTID"
+            field = arcpy.Describe(fc).OIDFieldName #"OBJECTID"
             fieldnames = [field.name for field in arcpy.ListFields(parameters[0].valueAsText)]
             if field in fieldnames:
                 parameters[0].clearMessage()
             else:
                 parameters[0].setErrorMessage("Field OBJECTID not found in the layer. The field is necessary for "
                                               "proper function of this tool.")
+        """
 
         if parameters[0].value and parameters[4].value == False:
             fieldnames = [field.name for field in arcpy.ListFields(parameters[0].valueAsText)]
@@ -191,7 +193,9 @@ class ExportLoS(object):
 
         strings = []
 
-        fields = ["OBJECTID", "SHAPE@"]
+        oid_field = arcpy.Describe(parameters[0].value).OIDFieldName
+
+        fields = [oid_field, "SHAPE@"]
 
         if include_offsets:
             fields = fields + [observer_offset_field, target_offset_field]
@@ -200,7 +204,7 @@ class ExportLoS(object):
             fields = fields + [target_x_field, target_y_field]
 
         with arcpy.da.SearchCursor(visibility_lines, fields,
-                                   """"OBJECTID" = """ + str(id_los)) as cursor_sightline:
+                                    oid_field + " = " + str(id_los)) as cursor_sightline:
 
             for row_sightline in cursor_sightline:
                 points = []

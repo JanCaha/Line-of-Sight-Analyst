@@ -13,7 +13,7 @@ class PrepareLoS(object):
         self.description = "A tool to create Lines of Sight between observer and target points. The shapefile itself " \
                            "does not store information about observer's and target's offsets. This information is " \
                            "stored in appropriate fields."
-        self.canRunInBackground = True
+        self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""

@@ -7,7 +7,7 @@ from los.analyze_global_los import AnalyzeGlobalLoS
 from los.extract_horizons import ExtractLocalHorizons
 from los.extract_global_horizons import ExtractGlobalHorizons
 from los.export_los import ExportLoS
-
+from los.optimize_point_location import OptimizePointsLocation
 
 class Toolbox(object):
     def __init__(self):
@@ -17,4 +17,4 @@ class Toolbox(object):
         self.alias = "losAnalyst"
 
         # List of tool classes associated with this toolbox
-        self.tools = [PrepareLoS, PrepareGlobalLoS, AnalyzeLoS, AnalyzeGlobalLoS, ExtractLocalHorizons, ExtractGlobalHorizons, ExportLoS]
+        self.tools = [PrepareLoS, PrepareGlobalLoS, AnalyzeLoS, AnalyzeGlobalLoS, ExtractLocalHorizons, ExtractGlobalHorizons, ExportLoS, OptimizePointsLocation]

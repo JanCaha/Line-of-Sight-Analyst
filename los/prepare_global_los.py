@@ -16,7 +16,7 @@ class PrepareGlobalLoS(object):
                            "points to the spatial extent of surface layer. This is necessary to analyze targets " \
                            "relation to the global horizon. The shapefile itself does not store information about " \
                            "observer's and target's offsets. This information is stored in appropriate fields."
-        self.canRunInBackground = True
+        self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""

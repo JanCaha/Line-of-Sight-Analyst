@@ -13,7 +13,7 @@ class ExtractGlobalHorizons(object):
         """Define the tool (tool name is the name of the class)."""
         self.label = "Extraction of Global Horizons"
         self.description = "A tool for extraction of horizons from global lines of sight."
-        self.canRunInBackground = True
+        self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""
