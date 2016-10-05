@@ -11,9 +11,9 @@ from los import functions_arcmap
 class AnalyzeGlobalLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Analysis of Global Line of Sight"
-        self.description = "A tool for analyzing Line of Sight between observer and points behind target points."
-        self.canRunInBackground = True
+        self.label = "Analyze Global Lines of Sight"
+        self.description = "A tool for analyzing Lines of Sight between observer and points behind target points."
+        self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""
@@ -176,7 +176,6 @@ class AnalyzeGlobalLoS(object):
 
         arcpy.ResetProgressor()
 
-        #functions_arcmap.addLayer(visibility_lines)
         return
 
     def prepareDataColumns(self, data, columns_list):

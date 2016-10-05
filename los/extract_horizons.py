@@ -9,8 +9,8 @@ from los import functions_arcmap
 class ExtractLocalHorizons(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Extraction of Local Horizons"
-        self.description = "A tool for extraction of local horizons from lines of sight."
+        self.label = "Extract Local Horizons"
+        self.description = "A tool for extraction of local horizons from Lines of Sight."
         self.canRunInBackground = False
 
     def getParameterInfo(self):
@@ -29,8 +29,6 @@ class ExtractLocalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param1.filter.list = ["Integer"]
-        #param1.parameterDependencies = [param0.name]
         param1.enabled = 0
 
         param2 = arcpy.Parameter(
@@ -39,8 +37,6 @@ class ExtractLocalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param2.filter.list = ["Double"]
-        #param2.parameterDependencies = [param0.name]
         param2.enabled = 0
 
         param3 = arcpy.Parameter(
@@ -49,8 +45,6 @@ class ExtractLocalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param3.filter.list = ["Integer"]
-        #param3.parameterDependencies = [param0.name]
         param3.enabled = 0
 
         param4 = arcpy.Parameter(
@@ -59,8 +53,6 @@ class ExtractLocalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param4.filter.list = ["Double"]
-        #param4.parameterDependencies = [param0.name]
         param4.enabled = 0
 
         param5 = arcpy.Parameter(
@@ -91,12 +83,12 @@ class ExtractLocalHorizons(object):
 
         if parameters[0].value:
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 1, parameters[0].valueAsText,
-                                                           "SmallInteger", "OID_OBSERV")
+                                                           "Integer", "OID_OBSERV")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
                                                            "Double", "observ_offset")
-            fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
-                                                           "SmallInteger", "OID_TARGET")
-            fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
+            fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 3, parameters[0].valueAsText,
+                                                           "Integer", "OID_TARGET")
+            fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 4, parameters[0].valueAsText,
                                                            "Double", "target_offset")
         return
 
@@ -105,17 +97,29 @@ class ExtractLocalHorizons(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 0)
 
+        if parameters[1].value:
+            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            if parameters[1].value not in fields:
+                parameters[1].setErrorMessage("Field does not exist!")
+            else:
+                parameters[1].clearMessage()
+
+        if parameters[3].value:
+            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            if parameters[3].value not in fields:
+                parameters[3].setErrorMessage("Field does not exist!")
+            else:
+                parameters[3].clearMessage()
+
         if parameters[0].value:
             message = "The input layer does have fields typical for Global Sight Line. This analysis should be performed on " \
                       "Local Sight Lines. Are you sure you want to proceed?"
             fieldnames = [field.name for field in arcpy.ListFields(parameters[0].value)]
 
             if "target_x" in fieldnames and "target_y" in fieldnames:
-                parameters[1].setWarningMessage(message)
-                parameters[3].setWarningMessage(message)
+                parameters[5].setWarningMessage(message)
             else:
-                parameters[1].clearMessage()
-                parameters[3].clearMessage()
+                parameters[5].clearMessage()
         return
 
     def execute(self, parameters, messages):

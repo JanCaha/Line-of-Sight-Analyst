@@ -9,7 +9,7 @@ from los import functions_arcmap
 class PrepareLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Creation of Line of Sight"
+        self.label = "Create Lines of Sight"
         self.description = "A tool to create Lines of Sight between observer and target points. The shapefile itself " \
                            "does not store information about observer's and target's offsets. This information is " \
                            "stored in appropriate fields."
@@ -119,12 +119,9 @@ class PrepareLoS(object):
         sightlines = arcpy.ConstructSightLines_3d(observer_points, target_points, sightlines_name, observer_offset,
                                                   target_offset, "<None>", sampling_distance, "NOT_OUTPUT_THE_DIRECTION")
 
-        arcpy.LineOfSight_3d(surface, sightlines, temp_los_name,
-                             arcpy.CreateScratchName(prefix="obstcl", workspace=arcpy.env.scratchGDB))
+        arcpy.InterpolateShape_3d(surface, sightlines, temp_los_name, sample_distance=sampling_distance, method="BILINEAR")
 
         visibility.updateLoS(temp_los_name, output_los, sightlines, target_points, False)
-
-        arcpy.DeleteField_management(output_los, "SourceOID")
 
         visibility.verifyShapeStructure(sightlines, output_los)
 

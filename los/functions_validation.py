@@ -29,13 +29,15 @@ def checkIfFieldExists(layer, fieldName, fields = None):
 
 
 def findFieldsByType(layer, fieldType, fields = None):
+
     if fields == None:
-        fields = {x for x in arcpy.Describe(layer).fields}
+        fields = arcpy.Describe(layer).fields
 
     names = []
     for i in range(0, len(fields)):
         if fields[i].type == fieldType:
-         names.append(fields[i].name)
+            names.append(fields[i].name)
+
     return names
 
 

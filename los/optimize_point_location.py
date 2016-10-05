@@ -1,8 +1,8 @@
 # coding=utf-8
 import math
 import os
-import sys
 import arcpy
+import numpy as np
 import functions_validation as fv
 import functions_visibility as visibility
 from los import functions_arcmap
@@ -10,26 +10,26 @@ from los import functions_arcmap
 class OptimizePointsLocation(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Optimization of Point Location"
-        self.description = "A tool for finding highest place in defined neighborhood and optimizing point location."
+        self.label = "Optimize Point Location"
+        self.description = "A tool for finding highest raster value in defined neighborhood and optimizing point location. "
         self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""
-        param0 = arcpy.Parameter(
-            displayName="Surface",
+        param1 = arcpy.Parameter(
+            displayName="Optimization raster",
             name="in_surface",
             datatype="GPRasterLayer",
             parameterType="Required",
             direction="Input")
 
-        param1 = arcpy.Parameter(
+        param0 = arcpy.Parameter(
             displayName="Points to be optimized",
             name="in_points_optimize",
             datatype="GPFeatureLayer",
             parameterType="Required",
             direction="Input")
-        param1.filter.list = ["Point"]
+        param0.filter.list = ["Point"]
 
         param2 = arcpy.Parameter(
             displayName="Distance for searching",
@@ -47,7 +47,7 @@ class OptimizePointsLocation(object):
             direction="Output")
 
         param4 = arcpy.Parameter(
-            displayName="Use mask",
+            displayName="Use mask?",
             name="in_use_mask",
             datatype="GPBoolean",
             parameterType="Optional",
@@ -76,9 +76,14 @@ class OptimizePointsLocation(object):
 
         if parameters[4].value == True:
             parameters[5].enabled = True
+            parameters[5].parameterType = "Required"
+        else:
+            parameters[5].enabled = False
+            parameters[5].parameterType = "Optional"
 
-        if  parameters[1].value and not parameters[3].altered:
-            parameters[3].value = os.path.dirname(arcpy.Describe(parameters[1].valueAsText).catalogPath) + "\\points_optimized"
+        if parameters[0].value and not parameters[3].altered:
+            desc = arcpy.Describe(parameters[0].valueAsText)
+            parameters[3].value = os.path.dirname(desc.catalogPath) + "\\" + desc.name + "_optimized"
 
         return
 
@@ -96,15 +101,14 @@ class OptimizePointsLocation(object):
     def execute(self, parameters, messages):
         """The source code of the tool."""
 
-        raster = parameters[0].valueAsText
-        points_to_optimize = parameters[1].valueAsText
+        points_to_optimize = parameters[0].valueAsText
+        raster = parameters[1].valueAsText
         distance = parameters[2].value
         optimized_points = parameters[3].valueAsText
         useMask = parameters[4].value
 
         if useMask:
             mask = parameters[5].valueAsText
-
 
         inRas = arcpy.Raster(raster)
 
@@ -122,6 +126,9 @@ class OptimizePointsLocation(object):
         arcpy.CopyFeatures_management(points_to_optimize, optimized_points)
 
         newPoint = arcpy.Point()
+
+        number_of_points = int(arcpy.GetCount_management(points_to_optimize).getOutput(0))
+        arcpy.SetProgressor("step", "Updating location of points", 0, number_of_points, 1)
 
         with arcpy.da.UpdateCursor(optimized_points, ["SHAPE@XY", "SHAPE@"]) as cursor:
             for row in cursor:
@@ -157,5 +164,8 @@ class OptimizePointsLocation(object):
                 newPoint.Y = maxY
                 row[1] = arcpy.PointGeometry(newPoint)
                 cursor.updateRow(row)
+                arcpy.SetProgressorPosition()
 
+        arcpy.ResetProgressor()
         functions_arcmap.addLayer(optimized_points)
+        return

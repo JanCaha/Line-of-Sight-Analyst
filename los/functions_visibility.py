@@ -33,14 +33,13 @@ def distance(x1, y1, x2, y2):
 
 # updates resulting LoS with necessary fields
 def updateLoS(los_temp, los_final, sightlines, target_points, isGlobal):
-    arcpy.Dissolve_management(los_temp, los_final, "SourceOID", "", "MULTI_PART", "DISSOLVE_LINES")
 
-    arcpy.AddField_management(los_final, "OID_OBSERV", "SHORT")
+    arcpy.Copy_management(los_temp, los_final)
+
     arcpy.AddField_management(los_final, "observ_offset", "DOUBLE")
-    arcpy.AddField_management(los_final, "OID_TARGET", "SHORT")
     arcpy.AddField_management(los_final, "target_offset", "DOUBLE")
 
-    fieldList = ["SourceOID", "OID_OBSERV", "observ_offset", "OID_TARGET", "target_offset", "SHAPE@"]
+    fieldList = ["OBJECTID", "observ_offset", "target_offset", "SHAPE@"]
     if isGlobal:
         arcpy.AddField_management(los_final, "target_x", "DOUBLE")
         arcpy.AddField_management(los_final, "target_y", "DOUBLE")
@@ -52,17 +51,15 @@ def updateLoS(los_temp, los_final, sightlines, target_points, isGlobal):
             with arcpy.da.SearchCursor(sightlines, ["OID", "SHAPE@", "OID_OBSERV", "OID_TARGET"],
                                        """"OID" = """ + str(row_LoS[0])) as cursor:
                 for row in cursor:
-                    row_LoS[2] = row[1].firstPoint.Z
-                    row_LoS[4] = row[1].lastPoint.Z
-                    row_LoS[1] = row[2]
-                    row_LoS[3] = row[3]
+                    row_LoS[1] = row[1].firstPoint.Z
+                    row_LoS[2] = row[1].lastPoint.Z
 
             if isGlobal:
                 with arcpy.da.SearchCursor(target_points, ["OBJECTID", "SHAPE@"],
                                            """"OBJECTID" = """ + str(row[3])) as cursor_target:
                     for row_target in cursor_target:
-                        row_LoS[6] = row_target[1].lastPoint.X
-                        row_LoS[7] = row_target[1].lastPoint.Y
+                        row_LoS[4] = row_target[1].lastPoint.X
+                        row_LoS[5] = row_target[1].lastPoint.Y
 
             cursor_LoS.updateRow(row_LoS)
 

@@ -9,9 +9,9 @@ import functions_arcmap
 class ExportLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Export of Line of Sight into CSV"
+        self.label = "Export Line of Sight into CSV"
         self.description = "A tool for export of Line of Sight into CSV (comma-separated values)."
-        self.canRunInBackground = True
+        self.canRunInBackground = False
 
     def getParameterInfo(self):
         """Define parameter definitions"""
@@ -131,7 +131,7 @@ class ExportLoS(object):
 
         if parameters[0].value:
             parameters[1].filter.type = "ValueList"
-            parameters[1].filter.list = fv.uniqueValues(parameters[0].valueAsText, arcpy.Describe(parameters[0].value).OIDFieldName) #"OBJECTID")
+            parameters[1].filter.list = fv.uniqueValues(parameters[0].valueAsText, arcpy.Describe(parameters[0].value).OIDFieldName)
 
         if parameters[0].value:
             if parameters[3].value == True:
@@ -150,18 +150,6 @@ class ExportLoS(object):
         """Modify the messages created by internal validation for each tool
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 0)
-
-        ### oid_fieldname = arcpy.Describe(fc).OIDFieldName
-        """"
-        if parameters[0].value:
-            field = arcpy.Describe(fc).OIDFieldName #"OBJECTID"
-            fieldnames = [field.name for field in arcpy.ListFields(parameters[0].valueAsText)]
-            if field in fieldnames:
-                parameters[0].clearMessage()
-            else:
-                parameters[0].setErrorMessage("Field OBJECTID not found in the layer. The field is necessary for "
-                                              "proper function of this tool.")
-        """
 
         if parameters[0].value and parameters[4].value == False:
             fieldnames = [field.name for field in arcpy.ListFields(parameters[0].valueAsText)]
@@ -215,12 +203,8 @@ class ExportLoS(object):
                 poi = wkt.split(", ")
                 # get coordinates of first point for distance calculation
 
-                #observer_offset = row[2]
-                #target_offset = row[3]
-
                 start_point_x = float(poi[0].split(" ")[0])
                 start_point_y = float(poi[0].split(" ")[1])
-                #observer_elev = float(poi[0].split(" ")[2]) + observer_offset
 
                 sampling_distance = visibility.distance(float(poi[1].split(" ")[0]), float(poi[1].split(" ")[1]),
                                                         start_point_x, start_point_y)

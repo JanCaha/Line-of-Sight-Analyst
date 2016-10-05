@@ -11,9 +11,9 @@ from los import functions_arcmap
 class PrepareGlobalLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Creation of Global Line of Sight"
+        self.label = "Create Global Lines of Sight"
         self.description = "A tool to create Lines of Sight from observer to target points and further beyond target " \
-                           "points to the spatial extent of surface layer. This is necessary to analyze targets " \
+                           "points to the spatial extent of the surface layer. This is necessary to analyze targets " \
                            "relation to the global horizon. The shapefile itself does not store information about " \
                            "observer's and target's offsets. This information is stored in appropriate fields."
         self.canRunInBackground = False
@@ -133,8 +133,7 @@ class PrepareGlobalLoS(object):
 
         temp_los_name = arcpy.CreateScratchName(prefix="los", workspace=arcpy.env.scratchGDB)
 
-        arcpy.LineOfSight_3d(surface, sightlines, temp_los_name,
-                             arcpy.CreateScratchName(prefix="obstcl", workspace=arcpy.env.scratchGDB))
+        arcpy.InterpolateShape_3d(surface, sightlines, temp_los_name, sample_distance=sampling_distance, method="BILINEAR")
 
         visibility.updateLoS(temp_los_name, output_los, sightlines, target_points, True)
 

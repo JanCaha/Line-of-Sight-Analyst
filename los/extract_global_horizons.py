@@ -11,8 +11,8 @@ from los import functions_arcmap
 class ExtractGlobalHorizons(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Extraction of Global Horizons"
-        self.description = "A tool for extraction of horizons from global lines of sight."
+        self.label = "Extract Global Horizon"
+        self.description = "A tool for extraction of Global horizons from global Lines of Sight."
         self.canRunInBackground = False
 
     def getParameterInfo(self):
@@ -32,8 +32,6 @@ class ExtractGlobalHorizons(object):
             #datatype="Field",
             parameterType="Required",
             direction="Input")
-        #param1.filter.list = ["Integer"]
-        #param1.parameterDependencies = [param0.name]
         param1.enabled = 0
 
         param2 = arcpy.Parameter(
@@ -43,8 +41,6 @@ class ExtractGlobalHorizons(object):
             # datatype="Field",
             parameterType="Required",
             direction="Input")
-        #param2.filter.list = ["Double"]
-        #param2.parameterDependencies = [param0.name]
         param2.enabled = 0
 
         param3 = arcpy.Parameter(
@@ -53,8 +49,6 @@ class ExtractGlobalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param3.filter.list = ["Integer"]
-        #param3.parameterDependencies = [param0.name]
         param3.enabled = 0
 
         param4 = arcpy.Parameter(
@@ -63,8 +57,6 @@ class ExtractGlobalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param4.filter.list = ["Double"]
-        #param4.parameterDependencies = [param0.name]
         param4.enabled = 0
 
         param5 = arcpy.Parameter(
@@ -73,8 +65,6 @@ class ExtractGlobalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param5.filter.list = ["Double"]
-        #param5.parameterDependencies = [param0.name]
         param5.enabled = 0
 
         param6 = arcpy.Parameter(
@@ -83,8 +73,6 @@ class ExtractGlobalHorizons(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param6.filter.list = ["Double"]
-        #param6.parameterDependencies = [param0.name]
         param6.enabled = 0
 
         param7 = arcpy.Parameter(
@@ -117,11 +105,11 @@ class ExtractGlobalHorizons(object):
 
         if parameters[0].value:
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 1, parameters[0].valueAsText,
-                                                           "SmallInteger", "OID_OBSERV")
+                                                           "Integer", "OID_OBSERV")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
                                                            "Double", "observ_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 3, parameters[0].valueAsText,
-                                                           "SmallInteger", "OID_TARGET")
+                                                           "Integer", "OID_TARGET")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 4, parameters[0].valueAsText,
                                                            "Double", "target_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 5, parameters[0].valueAsText,
@@ -134,6 +122,20 @@ class ExtractGlobalHorizons(object):
         """Modify the messages created by internal validation for each tool
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 0)
+
+        if parameters[1].value:
+            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            if parameters[1].value not in fields:
+                parameters[1].setErrorMessage("Field does not exist!")
+            else:
+                parameters[1].clearMessage()
+
+        if parameters[3].value:
+            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            if parameters[3].value not in fields:
+                parameters[3].setErrorMessage("Field does not exist!")
+            else:
+                parameters[3].clearMessage()
 
         if parameters[0].value:
             message = "The input layer does not have fields typical for Global Sight Line. This analysis should be performed on " \
