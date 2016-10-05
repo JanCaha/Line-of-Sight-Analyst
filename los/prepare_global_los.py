@@ -69,7 +69,7 @@ class PrepareGlobalLoS(object):
             datatype="GPDouble",
             parameterType="Required",
             direction="Input")
-        param5.value = 1
+        #param5.value = 0
 
         param6 = arcpy.Parameter(
             displayName="Output feature layer",
@@ -97,6 +97,9 @@ class PrepareGlobalLoS(object):
 
         if not parameters[6].value:
             parameters[6].value = str(arcpy.env.workspace) + "\\Global_LoS"
+
+        if parameters[0].value and not parameters[5].altered:
+            parameters[5].value = arcpy.Describe(parameters[0].valueAsText).meanCellHeight
         return
 
     def updateMessages(self, parameters):
@@ -104,6 +107,7 @@ class PrepareGlobalLoS(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 1)
         fv.checkProjected(parameters, 3)
+
         return
 
     def execute(self, parameters, messages):
@@ -119,7 +123,7 @@ class PrepareGlobalLoS(object):
         sightlines = arcpy.ConstructSightLines_3d(observer_points, target_points,
                                                   arcpy.CreateScratchName(prefix="sightlines",
                                                                           workspace=arcpy.env.scratchGDB),
-                                                  observer_offset, target_offset, "<None>", sampling_distance,
+                                                  observer_offset, target_offset, "<None>", 1,
                                                   "NOT_OUTPUT_THE_DIRECTION")
 
         raster_extent = arcpy.sa.Raster(surface).extent

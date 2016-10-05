@@ -66,7 +66,7 @@ class PrepareLoS(object):
             datatype="GPDouble",
             parameterType="Required",
             direction="Input")
-        param5.value = 1
+        #param5.value = 1
 
         param6 = arcpy.Parameter(
             displayName="Output feature layer",
@@ -101,6 +101,10 @@ class PrepareLoS(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 1)
         fv.checkProjected(parameters, 3)
+
+        if parameters[0].value and not parameters[5].altered:
+            parameters[5].value = arcpy.Describe(parameters[0].valueAsText).meanCellHeight
+
         return
 
     def execute(self, parameters, messages):
@@ -117,7 +121,7 @@ class PrepareLoS(object):
         sightlines_name = arcpy.CreateScratchName(prefix="sightlines", workspace=arcpy.env.scratchGDB)
 
         sightlines = arcpy.ConstructSightLines_3d(observer_points, target_points, sightlines_name, observer_offset,
-                                                  target_offset, "<None>", sampling_distance, "NOT_OUTPUT_THE_DIRECTION")
+                                                  target_offset, "<None>", 1, "NOT_OUTPUT_THE_DIRECTION")
 
         arcpy.InterpolateShape_3d(surface, sightlines, temp_los_name, sample_distance=sampling_distance, method="BILINEAR")
 
