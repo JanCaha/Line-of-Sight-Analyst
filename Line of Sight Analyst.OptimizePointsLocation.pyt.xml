@@ -1,1 +1,61 @@
-<metadata xml:lang="cs"><Esri><CreaDate>20160926</CreaDate><CreaTime>21400100</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><ModDate>20160927</ModDate><ModTime>8543600</ModTime><scaleRange><minScale>150000000</minScale><maxScale>5000</maxScale></scaleRange><ArcGISProfile>ItemDescription</ArcGISProfile></Esri><tool name="OptimizePointsLocation" displayname="Optimalization of Point Location" toolboxalias="losAnalyst" xmlns=""><arcToolboxHelpPath>c:\program files (x86)\arcgis\desktop10.3\Help\gp</arcToolboxHelpPath><parameters><param name="in_surface" displayname="Surface" type="Required" direction="Input" datatype="Raster Layer" expression="in_surface"><dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Surface on which the points are located and according to which the points are optimized.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference></param><param name="in_points_optimize" displayname="Points to be optimized" type="Required" direction="Input" datatype="Feature Layer" expression="in_points_optimize"><dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Points to be optimized.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference></param><param name="in_distance" displayname="Distance for searching" type="Required" direction="Input" datatype="Double" expression="in_distance"><dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Distance in which the higher points are located.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference></param><param name="in_optimized_points" displayname="Optimized points" type="Required" direction="Output" datatype="Feature Layer" expression="in_optimized_points"><dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Output feature layer location.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference></param><param name="in_use_mask" displayname="Use mask" type="Optional" direction="Input" datatype="Boolean" expression="{in_use_mask}"><dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Use of mask can enhance the selection of points.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference></param><param name="in_mask" displayname="Mask" type="Optional" direction="Input" datatype="Raster Layer" expression="{in_mask}"><dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Raster layer of the mask. Values higher then 0 marks locations that can be used. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference></param></parameters><summary>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool for finding highest point in the neighboorhood of existing point. These locations have chance to enhance visibility. The change can be possitive (better visibility) but there is chance that the visibility can be influenced negatively. The selection of the &lt;/SPAN&gt;&lt;SPAN&gt;higher points can be further better specify by the use of mask, that marks locations that should not be used e.g. the points should be located on the ground and not on the vegetation or buildings. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</summary></tool><dataIdInfo><idCitation><resTitle>Optimalization of Point Location</resTitle></idCitation><idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool for finding highest point in the neighboorhood of existing point. These locations have chance to enhance visibility. The change can be possitive (better visibility) but there is chance that the visibility can be influenced negatively. The selection of the &lt;/SPAN&gt;&lt;SPAN&gt;higher points can be further better specify by the use of mask, that marks locations that should not be used e.g. the points should be located on the ground and not on the vegetation or buildings. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs><idCredit>Jan Caha - creator</idCredit><searchKeys><keyword>surface</keyword><keyword>location</keyword><keyword>optimalization</keyword></searchKeys></dataIdInfo><distInfo><distributor><distorFormat><formatName>ArcToolbox Tool</formatName></distorFormat></distributor></distInfo><mdHrLv><ScopeCd value="005"/></mdHrLv></metadata>
+<metadata xml:lang="cs">
+	<Esri>
+		<CreaDate>20160926</CreaDate>
+		<CreaTime>21400100</CreaTime>
+		<ArcGISFormat>1.0</ArcGISFormat>
+		<SyncOnce>TRUE</SyncOnce>
+		<ModDate>20161005</ModDate>
+		<ModTime>10095800</ModTime>
+		<scaleRange>
+			<minScale>150000000</minScale>
+			<maxScale>5000</maxScale>
+		</scaleRange>
+		<ArcGISProfile>ItemDescription</ArcGISProfile>
+	</Esri>
+	<tool name="OptimizePointsLocation" displayname="Optimize Point Location" toolboxalias="losAnalyst" xmlns="">
+		<arcToolboxHelpPath>c:\program files (x86)\arcgis\desktop10.3\Help\gp</arcToolboxHelpPath>
+		<parameters>
+			<param name="in_points_optimize" displayname="Points to be optimized" type="Required" direction="Input" datatype="Feature Layer" expression="in_points_optimize">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Points to be optimized.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_surface" displayname="Surface" type="Required" direction="Input" datatype="Raster Layer" expression="in_surface">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Raster&lt;/SPAN&gt;&lt;SPAN&gt; on which the points are located and according to which the point&lt;/SPAN&gt;&lt;SPAN&gt; locations &lt;/SPAN&gt;&lt;SPAN&gt;are optimized.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_distance" displayname="Distance for searching" type="Required" direction="Input" datatype="Double" expression="in_distance">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Distance in which the higher points are located.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_optimized_points" displayname="Optimized points" type="Required" direction="Output" datatype="Feature Layer" expression="in_optimized_points">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Output feature layer location.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_use_mask" displayname="Use mask?" type="Optional" direction="Input" datatype="Boolean" expression="{in_use_mask}">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Use of mask can enhance the selection of points.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_mask" displayname="Mask" type="Optional" direction="Input" datatype="Raster Layer" expression="{in_mask}">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Raster layer of the mask. Values higher then 0 marks locations that can be used. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+		</parameters>
+		<summary>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool for finding highest &lt;/SPAN&gt;&lt;SPAN&gt;raster value&lt;/SPAN&gt;&lt;SPAN&gt;in the neighboorhood of existing point. &lt;/SPAN&gt;&lt;SPAN&gt;The raster used for optimization can be either elevation, or any &lt;/SPAN&gt;&lt;SPAN&gt;terrain &lt;/SPAN&gt;&lt;SPAN&gt;characteristics that &lt;/SPAN&gt;&lt;SPAN&gt;identifies points suitable for better visibility, e.g. local dominance or positive openness as defined by Kolkaj et. al (2016).&lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;T&lt;/SPAN&gt;&lt;SPAN&gt;hese locations have chance to &lt;/SPAN&gt;&lt;SPAN /&gt;&lt;SPAN&gt;enhance visibility. The change can be possitive (better visibility) but there is chance that the visibility can be influenced negatively. The selection of the &lt;/SPAN&gt;&lt;SPAN&gt;higher points can be further better specify by the use of mask, that marks locations that should not be used e.g. the points should be located on the ground and not on the vegetation or buildings. &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;KOKALJ, Žiga, ZAKŠEK, Klemen, OŠTIR, Krištof, PEHANI, Peter and ČOTAR, Klemen, 2016, Relief Visualization Toolbox, ver. 1.3 Manual [online]. Available from: http://iaps.zrc-sazu.si/sites/default/files/rvt_1.3.pdf &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</summary>
+	</tool>
+	<dataIdInfo>
+		<idCitation>
+			<resTitle>Optimize Point Location</resTitle>
+		</idCitation>
+		<idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool for finding highest &lt;/SPAN&gt;&lt;SPAN&gt;raster value&lt;/SPAN&gt;&lt;SPAN&gt;in the neighboorhood of existing point. &lt;/SPAN&gt;&lt;SPAN&gt;The raster used for optimization can be either elevation, or any &lt;/SPAN&gt;&lt;SPAN&gt;terrain &lt;/SPAN&gt;&lt;SPAN&gt;characteristics that &lt;/SPAN&gt;&lt;SPAN&gt;identifies points suitable for better visibility, e.g. local dominance or positive openness as defined by Kolkaj et. al (2016).&lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;T&lt;/SPAN&gt;&lt;SPAN&gt;hese locations have chance to &lt;/SPAN&gt;&lt;SPAN /&gt;&lt;SPAN&gt;enhance visibility. The change can be possitive (better visibility) but there is chance that the visibility can be influenced negatively. The selection of the &lt;/SPAN&gt;&lt;SPAN&gt;higher points can be further better specify by the use of mask, that marks locations that should not be used e.g. the points should be located on the ground and not on the vegetation or buildings. &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;KOKALJ, Žiga, ZAKŠEK, Klemen, OŠTIR, Krištof, PEHANI, Peter and ČOTAR, Klemen, 2016, Relief Visualization Toolbox, ver. 1.3 Manual [online]. Available from: http://iaps.zrc-sazu.si/sites/default/files/rvt_1.3.pdf &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs>
+		<idCredit>Jan Caha - creator</idCredit>
+		<searchKeys>
+			<keyword>raster</keyword>
+			<keyword>location</keyword>
+			<keyword>optimalization</keyword>
+		</searchKeys>
+	</dataIdInfo>
+	<distInfo>
+		<distributor>
+			<distorFormat>
+				<formatName>ArcToolbox Tool</formatName>
+			</distorFormat>
+		</distributor>
+	</distInfo>
+	<mdHrLv>
+		<ScopeCd value="005"/>
+	</mdHrLv>
+</metadata>
