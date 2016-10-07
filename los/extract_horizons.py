@@ -83,11 +83,11 @@ class ExtractLocalHorizons(object):
 
         if parameters[0].value:
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 1, parameters[0].valueAsText,
-                                                           "Integer", "OID_OBSERV")
+                                                           "SmallInteger", "OID_OBSERV")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
                                                            "Double", "observ_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 3, parameters[0].valueAsText,
-                                                           "Integer", "OID_TARGET")
+                                                           "SmallInteger", "OID_TARGET")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 4, parameters[0].valueAsText,
                                                            "Double", "target_offset")
         return
@@ -98,14 +98,14 @@ class ExtractLocalHorizons(object):
         fv.checkProjected(parameters, 0)
 
         if parameters[1].value:
-            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            fields = fv.findFieldsByType(parameters[0].value, "SmallInteger")
             if parameters[1].value not in fields:
                 parameters[1].setErrorMessage("Field does not exist!")
             else:
                 parameters[1].clearMessage()
 
         if parameters[3].value:
-            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            fields = fv.findFieldsByType(parameters[0].value, "SmallInteger")
             if parameters[3].value not in fields:
                 parameters[3].setErrorMessage("Field does not exist!")
             else:

@@ -136,17 +136,18 @@ def findGlobalHorizons(points, target_index):
     angle_diff = 0
     behind_tar = 0
     for i in range(1, len(points) - 1):
-        if isHorizon(points, i, 4, limit_angle) and points[i][4] > vis_angle:
-            if points[i][4] > limit_angle and points[i][2]<points[target_index][2]:
-                hide_target = 1
-            if max_horizon_angle_before != -180:
-                angle_diff = points[i][4] - limit_angle #points[i][4] - max_horizon_angle_before
-            if points[i][2]>points[target_index][2]:
-                behind_tar = 1
-            horizons.append(points[i] + [hide_target, angle_diff, behind_tar])
-            max_horizon_angle_before = points[i][4]
-        if points[i][4] > vis_angle:
-            vis_angle = points[i][4]
+        if not i == target_index:
+            if isHorizon(points, i, 4, limit_angle) and points[i][4] > vis_angle:
+                if points[i][4] > limit_angle and points[i][2]<points[target_index][2]:
+                    hide_target = 1
+                if max_horizon_angle_before != -180:
+                    angle_diff = points[i][4] - limit_angle #points[i][4] - max_horizon_angle_before
+                if points[i][2]>points[target_index][2]:
+                    behind_tar = 1
+                horizons.append(points[i] + [hide_target, angle_diff, behind_tar])
+                max_horizon_angle_before = points[i][4]
+            if points[i][4] > vis_angle:
+                vis_angle = points[i][4]
 
     points = sorted(horizons, key=itemgetter(4))
 

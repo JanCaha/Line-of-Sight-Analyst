@@ -18,7 +18,7 @@ class ExtractGlobalHorizons(object):
     def getParameterInfo(self):
         """Define parameter definitions"""
         param0 = arcpy.Parameter(
-            displayName="Lines of Sight",
+            displayName="Global Lines of Sight",
             name="in_los",
             datatype="GPFeatureLayer",
             parameterType="Required",
@@ -105,11 +105,11 @@ class ExtractGlobalHorizons(object):
 
         if parameters[0].value:
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 1, parameters[0].valueAsText,
-                                                           "Integer", "OID_OBSERV")
+                                                           "SmallInteger", "OID_OBSERV")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
                                                            "Double", "observ_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 3, parameters[0].valueAsText,
-                                                           "Integer", "OID_TARGET")
+                                                           "SmallInteger", "OID_TARGET")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 4, parameters[0].valueAsText,
                                                            "Double", "target_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 5, parameters[0].valueAsText,
@@ -124,14 +124,14 @@ class ExtractGlobalHorizons(object):
         fv.checkProjected(parameters, 0)
 
         if parameters[1].value:
-            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            fields = fv.findFieldsByType(parameters[0].value, "SmallInteger")
             if parameters[1].value not in fields:
                 parameters[1].setErrorMessage("Field does not exist!")
             else:
                 parameters[1].clearMessage()
 
         if parameters[3].value:
-            fields = fv.findFieldsByType(parameters[0].value, "Integer")
+            fields = fv.findFieldsByType(parameters[0].value, "SmallInteger")
             if parameters[3].value not in fields:
                 parameters[3].setErrorMessage("Field does not exist!")
             else:
@@ -169,7 +169,7 @@ class ExtractGlobalHorizons(object):
         arcpy.CreateFeatureclass_management(workspace, file_name, "POINT", has_z="ENABLED",
                                             spatial_reference=arcpy.Describe(visibility_lines).spatialReference)
 
-        field_list = [id_observer_field, id_target_field, "Elevation", "Hor_Type", "Hide_Tar", "ViewAngle",
+        field_list = [id_observer_field, id_target_field, "Elevation", "Hide_Tar", "ViewAngle",
                       "AngleDiff_Tar", "Dist_Observ", "Behind_Tar" ,"OID_LoS"]
 
         self.prepareDataColumns(horizons, field_list, id_observer_field, id_target_field)
@@ -231,11 +231,9 @@ class ExtractGlobalHorizons(object):
                     point.Y = results[i][1]
                     point.Z = results[i][3]
                     ptGeometry = arcpy.PointGeometry(point)
-                    if i == len(results) - 1:
-                        hor_type = 1
 
-                    insert_cursor.insertRow([ptGeometry, row[2], row[3], results[i][3], hor_type,
-                                             results[i][5], results[i][4], results[i][6], results[i][2], results[i][7], row[0]])
+                    insert_cursor.insertRow([ptGeometry, row[2], row[3], results[i][3], results[i][5],
+                                             results[i][4], results[i][6], results[i][2], results[i][7], row[0]])
 
                 arcpy.SetProgressorPosition()
 
@@ -255,7 +253,7 @@ class ExtractGlobalHorizons(object):
         for field_vis in columns_list:
             if any(field_vis in s for s in fieldNameList):
                 arcpy.DeleteField_management(data, field_vis)
-            if field_vis == "OID_LoS" or field_vis == "Hor_Type" or field_vis == "Hide_Tar" \
+            if field_vis == "OID_LoS" or field_vis == "Behind_Tar" or field_vis == "Hide_Tar" \
                     or field_vis == id_observer_field  or field_vis == id_target_field:
                 arcpy.AddField_management(data, field_vis, "SHORT")
             else:
