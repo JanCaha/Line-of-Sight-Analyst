@@ -5,8 +5,6 @@ import arcpy
 
 import functions_validation as fv
 import functions_visibility as visibility
-from los import functions_arcmap
-
 
 class AnalyzeGlobalLoS(object):
     def __init__(self):
@@ -31,8 +29,8 @@ class AnalyzeGlobalLoS(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param1.filter.list = ["Double"]
-        #param1.parameterDependencies = [param0.name]
+        # param1.filter.list = ["Double"]
+        # param1.parameterDependencies = [param0.name]
         param1.enabled = 0
 
         param2 = arcpy.Parameter(
@@ -41,8 +39,8 @@ class AnalyzeGlobalLoS(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param2.filter.list = ["Double"]
-        #param2.parameterDependencies = [param0.name]
+        # param2.filter.list = ["Double"]
+        # param2.parameterDependencies = [param0.name]
         param2.enabled = 0
 
         param3 = arcpy.Parameter(
@@ -51,8 +49,8 @@ class AnalyzeGlobalLoS(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param3.filter.list = ["Double"]
-        #param3.parameterDependencies = [param0.name]
+        # param3.filter.list = ["Double"]
+        # param3.parameterDependencies = [param0.name]
         param3.enabled = 0
 
         param4 = arcpy.Parameter(
@@ -61,11 +59,29 @@ class AnalyzeGlobalLoS(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param4.filter.list = ["Double"]
-        #param4.parameterDependencies = [param0.name]
+        # param4.filter.list = ["Double"]
+        # param4.parameterDependencies = [param0.name]
         param4.enabled = 0
 
-        params = [param0, param1, param2, param3, param4]
+        param5 = arcpy.Parameter(
+            displayName="Use earth curvature corrections?",
+            name="in_use_curvature",
+            datatype="GPBoolean",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param5.value = False
+
+        param6 = arcpy.Parameter(
+            displayName="Refractivity coefficient ",
+            name="in_ref_coeff",
+            datatype="GPDouble",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param6.value = 0.13
+
+        params = [param0, param1, param2, param3, param4, param5, param6]
         return params
 
     def isLicensed(self):
@@ -118,6 +134,9 @@ class AnalyzeGlobalLoS(object):
         target_x_field = parameters[3].valueAsText
         target_y_field = parameters[4].valueAsText
 
+        useCurvatures = parameters[5].value
+        refCoeff = parameters[6].value
+
         fields_visibility = ["Visible", "AngleDiff_GH", "ElevDiff_GH", "HorDist", "Horizon_C"]
 
         columns = ["OBJECTID", "SHAPE@"] + [observer_offset_field, target_offset_field, target_x_field, target_y_field]
@@ -132,11 +151,7 @@ class AnalyzeGlobalLoS(object):
             for row in cursor:
 
                 points = []
-                # get geometry as WKT and remove beginning and ending
-                wkt = row[1].WKT.replace("))", "").replace(" ((", "").replace("MULTILINESTRING ", "")\
-                    .replace("ZM","").replace("Z", "").replace("), (", ", ")
-                # split WKT of line into points
-                poi = wkt.split(", ")
+                poi = visibility.WKTtoPoints(row[1].WKT)
                 # get coordinates of first point for distance calculation
 
                 observer_offset = row[2]
@@ -160,6 +175,10 @@ class AnalyzeGlobalLoS(object):
                     y = float(parts[1])
                     z = float(parts[2])
                     dist = visibility.distance(x, y, start_point_x, start_point_y)
+
+                    if useCurvatures:
+                        z = visibility.curvatureCorrections(z, dist, refCoeff)
+
                     if i == 0:
                         points.append([x, y, 0, observer_elev, -90])
                     elif math.fabs(target_distance - dist) < sampling_distance/2:

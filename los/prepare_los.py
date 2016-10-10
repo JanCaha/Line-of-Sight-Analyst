@@ -5,7 +5,6 @@ import functions_validation as fv
 import functions_visibility as visibility
 from los import functions_arcmap
 
-
 class PrepareLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
@@ -66,7 +65,7 @@ class PrepareLoS(object):
             datatype="GPDouble",
             parameterType="Required",
             direction="Input")
-        #param5.value = 1
+        # param5.value = 1
 
         param6 = arcpy.Parameter(
             displayName="Output feature layer",
@@ -94,6 +93,10 @@ class PrepareLoS(object):
 
         if not parameters[6].value:
             parameters[6].value = str(arcpy.env.workspace) + "\\LoS"
+
+        if parameters[0].value and not parameters[5].altered:
+            parameters[5].value = arcpy.Describe(parameters[0].valueAsText).meanCellHeight
+
         return
 
     def updateMessages(self, parameters):
@@ -101,10 +104,6 @@ class PrepareLoS(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 1)
         fv.checkProjected(parameters, 3)
-
-        if parameters[0].value and not parameters[5].altered:
-            parameters[5].value = arcpy.Describe(parameters[0].valueAsText).meanCellHeight
-
         return
 
     def execute(self, parameters, messages):
@@ -122,6 +121,12 @@ class PrepareLoS(object):
 
         sightlines = arcpy.ConstructSightLines_3d(observer_points, target_points, sightlines_name, observer_offset,
                                                   target_offset, "<None>", 1, "NOT_OUTPUT_THE_DIRECTION")
+
+        arcpy.AddField_management(sightlines, "ID_OBSERV", "LONG")
+        arcpy.CalculateField_management(sightlines, "ID_OBSERV", "!OID_OBSERV!", "PYTHON")
+        arcpy.AddField_management(sightlines, "ID_TARGET", "LONG")
+        arcpy.CalculateField_management(sightlines, "ID_TARGET", "!OID_TARGET!", "PYTHON")
+        arcpy.DeleteField_management(sightlines, ["OID_TARGET", "OID_OBSERV"])
 
         arcpy.InterpolateShape_3d(surface, sightlines, temp_los_name, sample_distance=sampling_distance, method="BILINEAR")
 

@@ -5,8 +5,6 @@ import arcpy
 
 import functions_validation as fv
 import functions_visibility as visibility
-from los import functions_arcmap
-
 
 class AnalyzeLoS(object):
     def __init__(self):
@@ -31,8 +29,8 @@ class AnalyzeLoS(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param1.filter.list = ["Double"]
-        #param1.parameterDependencies = [param0.name]
+        # param1.filter.list = ["Double"]
+        # param1.parameterDependencies = [param0.name]
         param1.enabled = 0
 
         param2 = arcpy.Parameter(
@@ -41,8 +39,8 @@ class AnalyzeLoS(object):
             datatype="GPString",
             parameterType="Required",
             direction="Input")
-        #param2.filter.list = ["Double"]
-        #param2.parameterDependencies = [param0.name]
+        # param2.filter.list = ["Double"]
+        # param2.parameterDependencies = [param0.name]
         param2.enabled = 0
 
         param3 = arcpy.Parameter(
@@ -72,8 +70,26 @@ class AnalyzeLoS(object):
             category="Fuzzy visibility")
         param5.value = 500
 
+        param6 = arcpy.Parameter(
+            displayName="Use earth curvature corrections?",
+            name="in_use_curvature",
+            datatype="GPBoolean",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param6.value = False
 
-        params = [param0, param1, param2, param3, param4, param5]
+        param7 = arcpy.Parameter(
+            displayName="Refractivity coefficient ",
+            name="in_ref_coeff",
+            datatype="GPDouble",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param7.value = 0.13
+
+
+        params = [param0, param1, param2, param3, param4, param5, param6, param7]
         return params
 
     def isLicensed(self):
@@ -122,6 +138,10 @@ class AnalyzeLoS(object):
         self.h = float(parameters[3].valueAsText)
         self.beta = parameters[4].value
 
+        useCurvatures = parameters[6].value
+        refCoeff = parameters[7].value
+
+
         fields_visibility = ["Visible", "ViewAngle", "ElevDiff", "AngleDiff_H", "ElevDiff_H", "SlopeDiff",
                              "Horizon_C", "HorDist", "FuzzyVis"]
 
@@ -137,11 +157,7 @@ class AnalyzeLoS(object):
             for row in cursor:
 
                 points = []
-                # get geometry as WKT and remove beginning and ending
-                wkt = row[1].WKT.replace("))", "").replace(" ((", "").replace("MULTILINESTRING ", "")\
-                    .replace("ZM","").replace("Z", "").replace("), (", ", ")
-                # split WKT of line into points
-                poi = wkt.split(", ")
+                poi = visibility.WKTtoPoints(row[1].WKT)
                 # get coordinates of first point for distance calculation
 
                 observer_offset = row[2]
@@ -158,6 +174,10 @@ class AnalyzeLoS(object):
                     y = float(parts[1])
                     z = float(parts[2])
                     dist = visibility.distance(x, y, start_point_x, start_point_y)
+
+                    if useCurvatures:
+                        z = visibility.curvatureCorrections(z, dist, refCoeff)
+
                     if i == 0:
                         points.append([x, y, 0, observer_elev, -90])
                     elif i == len(poi) - 1:

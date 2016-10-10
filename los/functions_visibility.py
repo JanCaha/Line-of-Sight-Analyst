@@ -31,6 +31,15 @@ def distance(x1, y1, x2, y2):
     return math.sqrt(math.pow(x1-x2, 2) + math.pow(y1-y2, 2))
 
 
+def WKTtoPoints(wkt):
+    return wkt.replace("))", "").replace(" ((", "").replace("MULTILINESTRING ", "").replace("ZM","").replace("Z", "").replace("), (", ", ").split(", ")
+
+
+def curvatureCorrections(elev, dist, refCoeff):
+    earthDiam = 12740000
+    return elev - (math.pow(dist, 2)/earthDiam) + refCoeff * (math.pow(dist, 2)/earthDiam)
+
+
 # updates resulting LoS with necessary fields
 def updateLoS(los_temp, los_final, sightlines, target_points, isGlobal):
 
@@ -45,18 +54,21 @@ def updateLoS(los_temp, los_final, sightlines, target_points, isGlobal):
         arcpy.AddField_management(los_final, "target_y", "DOUBLE")
         fieldList = fieldList + ["target_x", "target_y"]
 
+    id_sightlines = arcpy.Describe(sightlines).OIDFieldName
+    id_target_points = arcpy.Describe(target_points).OIDFieldName
+
     with arcpy.da.UpdateCursor(los_final,fieldList) as cursor_LoS:
         for row_LoS in cursor_LoS:
 
-            with arcpy.da.SearchCursor(sightlines, ["OID", "SHAPE@", "OID_OBSERV", "OID_TARGET"],
-                                       """"OID" = """ + str(row_LoS[0])) as cursor:
+            with arcpy.da.SearchCursor(sightlines, [id_sightlines, "SHAPE@", "ID_OBSERV", "ID_TARGET"],
+                                       id_sightlines + " = " + str(row_LoS[0])) as cursor:
                 for row in cursor:
                     row_LoS[1] = row[1].firstPoint.Z
                     row_LoS[2] = row[1].lastPoint.Z
 
             if isGlobal:
-                with arcpy.da.SearchCursor(target_points, ["OBJECTID", "SHAPE@"],
-                                           """"OBJECTID" = """ + str(row[3])) as cursor_target:
+                with arcpy.da.SearchCursor(target_points, [id_target_points, "SHAPE@"],
+                                           id_target_points + " = " + str(row[3])) as cursor_target:
                     for row_target in cursor_target:
                         row_LoS[4] = row_target[1].lastPoint.X
                         row_LoS[5] = row_target[1].lastPoint.Y

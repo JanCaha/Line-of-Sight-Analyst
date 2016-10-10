@@ -7,7 +7,6 @@ import functions_validation as fv
 import functions_visibility as visibility
 from los import functions_arcmap
 
-
 class PrepareGlobalLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
@@ -69,7 +68,7 @@ class PrepareGlobalLoS(object):
             datatype="GPDouble",
             parameterType="Required",
             direction="Input")
-        #param5.value = 0
+        # param5.value = 0
 
         param6 = arcpy.Parameter(
             displayName="Output feature layer",
@@ -99,7 +98,7 @@ class PrepareGlobalLoS(object):
             parameters[6].value = str(arcpy.env.workspace) + "\\Global_LoS"
 
         if parameters[0].value and not parameters[5].altered:
-            parameters[5].value = arcpy.Describe(parameters[0].valueAsText).meanCellHeight
+            parameters[5].value = str(arcpy.Describe(parameters[0].valueAsText).meanCellHeight)
         return
 
     def updateMessages(self, parameters):
@@ -107,7 +106,6 @@ class PrepareGlobalLoS(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 1)
         fv.checkProjected(parameters, 3)
-
         return
 
     def execute(self, parameters, messages):
@@ -134,6 +132,12 @@ class PrepareGlobalLoS(object):
         spatial_ref = arcpy.Describe(sightlines).spatialReference
 
         visibility.makeGlobalLoS(sightlines, maximal_possible_distance, spatial_ref)
+
+        arcpy.AddField_management(sightlines, "ID_OBSERV", "LONG")
+        arcpy.CalculateField_management(sightlines, "ID_OBSERV", "!OID_OBSERV!", "PYTHON")
+        arcpy.AddField_management(sightlines, "ID_TARGET", "LONG")
+        arcpy.CalculateField_management(sightlines, "ID_TARGET", "!OID_TARGET!", "PYTHON")
+        arcpy.DeleteField_management(sightlines, ["OID_TARGET", "OID_OBSERV"])
 
         temp_los_name = arcpy.CreateScratchName(prefix="los", workspace=arcpy.env.scratchGDB)
 

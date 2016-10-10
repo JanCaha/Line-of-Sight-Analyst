@@ -4,7 +4,6 @@ import arcpy
 
 import functions_validation as fv
 import functions_visibility as visibility
-import functions_arcmap
 
 class ExportLoS(object):
     def __init__(self):
@@ -92,7 +91,25 @@ class ExportLoS(object):
             category="Global Line of Sight")
         param8.enabled = False
 
-        params = [param0, param1, param2 ,param3, param4, param5, param6, param7, param8]
+        param9 = arcpy.Parameter(
+            displayName="Use earth curvature corrections?",
+            name="in_use_curvature",
+            datatype="GPBoolean",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param9.value = False
+
+        param10 = arcpy.Parameter(
+            displayName="Refractivity coefficient ",
+            name="in_ref_coeff",
+            datatype="GPDouble",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param10.value = 0.13
+
+        params = [param0, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10]
         return params
 
     def isLicensed(self):
@@ -151,7 +168,7 @@ class ExportLoS(object):
         parameter.  This method is called after internal validation."""
         fv.checkProjected(parameters, 0)
 
-        if parameters[0].value and parameters[4].value == False:
+        if parameters[0].value and parameters[4].value is False:
             fieldnames = [field.name for field in arcpy.ListFields(parameters[0].valueAsText)]
 
             if "target_x" in fieldnames and "target_y" in fieldnames:
@@ -159,7 +176,8 @@ class ExportLoS(object):
                                                 " to correctly export Global Line of Sight please check this button.")
             else:
                 parameters[4].clearMessage()
-
+        else:
+            parameters[4].clearMessage()
         return
 
     def execute(self, parameters, messages):
@@ -175,6 +193,10 @@ class ExportLoS(object):
         target_offset_field = parameters[6].valueAsText
         target_x_field = parameters[7].valueAsText
         target_y_field = parameters[8].valueAsText
+
+        useCurvatures = parameters[9].value
+        refCoeff = parameters[10].value
+
 
         delimiter = ";"
         end_of_line = "\n"
@@ -196,11 +218,7 @@ class ExportLoS(object):
 
             for row_sightline in cursor_sightline:
                 points = []
-                # get geometry as WKT and remove beginning and ending
-                wkt = row_sightline[1].WKT.replace("))", "").replace(" ((", "").replace("MULTILINESTRING ", "") \
-                    .replace("ZM", "").replace("Z", "").replace("), (", ", ")
-                # split WKT of line into points
-                poi = wkt.split(", ")
+                poi = visibility.WKTtoPoints(row_sightline[1].WKT)
                 # get coordinates of first point for distance calculation
 
                 start_point_x = float(poi[0].split(" ")[0])
@@ -249,6 +267,9 @@ class ExportLoS(object):
                         isTargetPoint = 1
                     else:
                         isTargetPoint = 0
+
+                    if useCurvatures:
+                        z = visibility.curvatureCorrections(z, dist, refCoeff)
 
                     strings.append(str(dist))
                     strings.append(delimiter)

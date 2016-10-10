@@ -82,7 +82,25 @@ class ExtractGlobalHorizons(object):
             parameterType="Required",
             direction="output")
 
-        params = [param0, param1, param2, param3, param4, param5, param6, param7]
+        param8 = arcpy.Parameter(
+            displayName="Use earth curvature corrections?",
+            name="in_use_curvature",
+            datatype="GPBoolean",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param8.value = False
+
+        param9 = arcpy.Parameter(
+            displayName="Refractivity coefficient ",
+            name="in_ref_coeff",
+            datatype="GPDouble",
+            parameterType="Required",
+            direction="Input",
+            category="Curvature corrections")
+        param9.value = 0.13
+
+        params = [param0, param1, param2, param3, param4, param5, param6, param7, param8, param9]
         return params
 
     def isLicensed(self):
@@ -105,11 +123,11 @@ class ExtractGlobalHorizons(object):
 
         if parameters[0].value:
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 1, parameters[0].valueAsText,
-                                                           "SmallInteger", "OID_OBSERV")
+                                                           "Integer", "ID_OBSERV")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 2, parameters[0].valueAsText,
                                                            "Double", "observ_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 3, parameters[0].valueAsText,
-                                                           "SmallInteger", "OID_TARGET")
+                                                           "Integer", "ID_TARGET")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 4, parameters[0].valueAsText,
                                                            "Double", "target_offset")
             fv.fillParamaterWithFieldTypeAndDefaultFieldIfExists(parameters, 5, parameters[0].valueAsText,
@@ -124,14 +142,14 @@ class ExtractGlobalHorizons(object):
         fv.checkProjected(parameters, 0)
 
         if parameters[1].value:
-            fields = fv.findFieldsByType(parameters[0].value, "SmallInteger")
+            fields = fv.findFieldsByType(parameters[0].value, "Integer")
             if parameters[1].value not in fields:
                 parameters[1].setErrorMessage("Field does not exist!")
             else:
                 parameters[1].clearMessage()
 
         if parameters[3].value:
-            fields = fv.findFieldsByType(parameters[0].value, "SmallInteger")
+            fields = fv.findFieldsByType(parameters[0].value, "Integer")
             if parameters[3].value not in fields:
                 parameters[3].setErrorMessage("Field does not exist!")
             else:
@@ -162,6 +180,9 @@ class ExtractGlobalHorizons(object):
         target_y_field = parameters[6].valueAsText
         horizons = parameters[7].valueAsText
 
+        useCurvatures = parameters[8].value
+        refCoeff = parameters[9].value
+
         workspace = fv.getPath(horizons)
 
         file_name = horizons.replace(workspace + "\\", "")
@@ -191,10 +212,8 @@ class ExtractGlobalHorizons(object):
                 target_offset = row[5]
 
                 points = []
-                wkt = row[1].WKT.replace("))", "").replace(" ((", "").replace("MULTILINESTRING ", "") \
-                    .replace("ZM", "").replace("Z", "").replace("), (", ", ")
+                poi = visibility.WKTtoPoints(row[1].WKT)
 
-                poi = wkt.split(", ")
                 # get coordinates of first point for distance calculation
                 start_point_x = float(poi[0].split(" ")[0])
                 start_point_y = float(poi[0].split(" ")[1])
@@ -212,6 +231,10 @@ class ExtractGlobalHorizons(object):
                     y = float(parts[1])
                     z = float(parts[2])
                     dist = visibility.distance(x, y, start_point_x, start_point_y)
+
+                    if useCurvatures:
+                        z = visibility.curvatureCorrections(z, dist, refCoeff)
+
                     if i == 0:
                         points.append([x, y, 0, observer_elev, -90])
                     elif math.fabs(target_distance - dist) < sampling_distance / 2:
