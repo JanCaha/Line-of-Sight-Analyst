@@ -1,8 +1,6 @@
 # coding=utf-8
 import math
-
 import arcpy
-
 import functions_validation as fv
 import functions_visibility as visibility
 from los import functions_arcmap
@@ -83,7 +81,7 @@ class ExtractGlobalHorizons(object):
             direction="output")
 
         param8 = arcpy.Parameter(
-            displayName="Use earth curvature corrections?",
+            displayName="Use earth curvature and refraction corrections?",
             name="in_use_curvature",
             datatype="GPBoolean",
             parameterType="Required",
@@ -190,14 +188,23 @@ class ExtractGlobalHorizons(object):
         arcpy.CreateFeatureclass_management(workspace, file_name, "POINT", has_z="ENABLED",
                                             spatial_reference=arcpy.Describe(visibility_lines).spatialReference)
 
-        field_list = [id_observer_field, id_target_field, "Elevation", "Hide_Tar", "ViewAngle",
-                      "AngleDiff_Tar", "Dist_Observ", "Behind_Tar" ,"OID_LoS"]
+        fieldsNew = [(id_observer_field, id_observer_field, "SHORT"),
+                     (id_target_field, id_target_field, "SHORT"),
+                     ("Elevation", "Elevation", "DOUBLE"),
+                     ("Hide_Tar", "Hides target point", "SHORT"),
+                     ("ViewAngle", "Viewing angle", "DOUBLE"),
+                     ("AngleDiff_Tar", "Viewing angle difference to target", "DOUBLE"),
+                     ("Dist_Observ", "Distance to observer", "DOUBLE"),
+                     ("Behind_Tar", "Behind target", "SHORT"),
+                     ("OID_LoS", "OID_LoS", "SHORT")]
 
-        self.prepareDataColumns(horizons, field_list, id_observer_field, id_target_field)
+        fieldsNames = [row[0] for row in fieldsNew]
+
+        functions_arcmap.prepareDataColumns(horizons, fieldsNew)
 
         arcpy.AddMessage("\t Determination of horizons started...")
 
-        insert_cursor = arcpy.da.InsertCursor(horizons, ["SHAPE@"] + field_list)
+        insert_cursor = arcpy.da.InsertCursor(horizons, ["SHAPE@"] + fieldsNames)
 
         number_of_LoS = int(arcpy.GetCount_management(visibility_lines).getOutput(0))
         arcpy.SetProgressor("step", "Analyzing " + str(number_of_LoS) + " lines of sight...", 0, number_of_LoS, 1)
@@ -265,19 +272,3 @@ class ExtractGlobalHorizons(object):
 
         functions_arcmap.addLayer(horizons)
         return
-
-    def prepareDataColumns(self, data, columns_list, id_observer_field, id_target_field):
-        fieldObjList = arcpy.ListFields(data)
-        fieldNameList = []
-        for field in fieldObjList:
-            if not field.required:
-                fieldNameList.append(field.name)
-
-        for field_vis in columns_list:
-            if any(field_vis in s for s in fieldNameList):
-                arcpy.DeleteField_management(data, field_vis)
-            if field_vis == "OID_LoS" or field_vis == "Behind_Tar" or field_vis == "Hide_Tar" \
-                    or field_vis == id_observer_field  or field_vis == id_target_field:
-                arcpy.AddField_management(data, field_vis, "SHORT")
-            else:
-                arcpy.AddField_management(data, field_vis, "DOUBLE")

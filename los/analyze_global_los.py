@@ -1,10 +1,9 @@
 # coding=utf-8
 import math
-
 import arcpy
-
 import functions_validation as fv
 import functions_visibility as visibility
+import functions_arcmap as farcmap
 
 class AnalyzeGlobalLoS(object):
     def __init__(self):
@@ -64,7 +63,7 @@ class AnalyzeGlobalLoS(object):
         param4.enabled = 0
 
         param5 = arcpy.Parameter(
-            displayName="Use earth curvature corrections?",
+            displayName="Use earth curvature and refraction corrections?",
             name="in_use_curvature",
             datatype="GPBoolean",
             parameterType="Required",
@@ -137,17 +136,23 @@ class AnalyzeGlobalLoS(object):
         useCurvatures = parameters[5].value
         refCoeff = parameters[6].value
 
-        fields_visibility = ["Visible", "AngleDiff_GH", "ElevDiff_GH", "HorDist", "Horizon_C"]
+        fieldsNew = [("Visible", "Visibility of target", "SHORT"),
+                     ("AngleDiff_GH", "Angle difference of target to global horizon", "DOUBLE"),
+                     ("ElevDiff_GH", "Elevation difference of target to global horizon", "DOUBLE"),
+                     ("HorDist", "Distance of horizon from target point", "DOUBLE"),
+                     ("Horizon_C", "Horizon count behind target point", "SHORT")]
+
+        fieldsNames = [row[0] for row in fieldsNew]
 
         columns = ["OBJECTID", "SHAPE@"] + [observer_offset_field, target_offset_field, target_x_field, target_y_field]
 
-        self.prepareDataColumns(visibility_lines, fields_visibility)
+        farcmap.prepareDataColumns(visibility_lines, fieldsNew)
 
         number_of_LoS = int(arcpy.GetCount_management(visibility_lines).getOutput(0))
 
         arcpy.SetProgressor("step", "Analyzing " + str(number_of_LoS) + " lines of sight...", 0, number_of_LoS, 1)
 
-        with arcpy.da.UpdateCursor(visibility_lines, columns + fields_visibility) as cursor:
+        with arcpy.da.UpdateCursor(visibility_lines, columns + fieldsNames) as cursor:
             for row in cursor:
 
                 points = []
@@ -196,21 +201,6 @@ class AnalyzeGlobalLoS(object):
         arcpy.ResetProgressor()
 
         return
-
-    def prepareDataColumns(self, data, columns_list):
-        fieldObjList = arcpy.ListFields(data)
-        fieldNameList = []
-        for field in fieldObjList:
-            if not field.required:
-                fieldNameList.append(field.name)
-
-        for field_vis in columns_list:
-            if any(field_vis in s for s in fieldNameList):
-                arcpy.DeleteField_management(data, field_vis)
-            if field_vis == "Visible" or field_vis == "Horizon_C":
-                arcpy.AddField_management(data, field_vis, "SHORT")
-            else:
-                arcpy.AddField_management(data, field_vis, "DOUBLE")
 
     def analyzeLoS(self, points, target_index):
 

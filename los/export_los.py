@@ -92,7 +92,7 @@ class ExportLoS(object):
         param8.enabled = False
 
         param9 = arcpy.Parameter(
-            displayName="Use earth curvature corrections?",
+            displayName="Use earth curvature and refraction corrections?",
             name="in_use_curvature",
             datatype="GPBoolean",
             parameterType="Required",

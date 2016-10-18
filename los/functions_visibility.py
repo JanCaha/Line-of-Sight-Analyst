@@ -8,7 +8,7 @@ def fuzzyVisibility(dist, b1, beta, h):
     if dist < b1:
         return 1
     else:
-        return 1/(1 + 2*math.pow((dist-b1)/b2, 2))
+        return 1/(1 + math.pow((dist-b1)/b2, 2))
 
 def isHorizon(points, i, ANG,limit_angle):
     if i < len(points)-2:

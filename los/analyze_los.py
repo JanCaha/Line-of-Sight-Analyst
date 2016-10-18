@@ -1,10 +1,9 @@
 # coding=utf-8
 import math
-
 import arcpy
-
 import functions_validation as fv
 import functions_visibility as visibility
+import functions_arcmap as farcmap
 
 class AnalyzeLoS(object):
     def __init__(self):
@@ -71,7 +70,7 @@ class AnalyzeLoS(object):
         param5.value = 500
 
         param6 = arcpy.Parameter(
-            displayName="Use earth curvature corrections?",
+            displayName="Use earth curvature and refraction corrections?",
             name="in_use_curvature",
             datatype="GPBoolean",
             parameterType="Required",
@@ -142,18 +141,27 @@ class AnalyzeLoS(object):
         refCoeff = parameters[7].value
 
 
-        fields_visibility = ["Visible", "ViewAngle", "ElevDiff", "AngleDiff_H", "ElevDiff_H", "SlopeDiff",
-                             "Horizon_C", "HorDist", "FuzzyVis"]
+        fieldsNew = [ ("Visible", "Visibility of target", "SHORT"),
+                       ("ViewAngle", "Viewing angle of target", "DOUBLE"),
+                       ("ElevDiff", "Elevation difference of observer and target", "DOUBLE"),
+                       ("AngleDiff_H", "Angle difference of target to horizon", "DOUBLE"),
+                       ("ElevDiff_H", "Elevation difference of target to horizon", "DOUBLE"),
+                       ("SlopeDiff", "Difference of target viewing angle to LoS slope", "DOUBLE"),
+                       ("Horizon_C", "Horizon count", "SHORT"),
+                       ("HorDist", "Distance of horizon from observer", "DOUBLE"),
+                       ("FuzzyVis", "Fuzzy visibility", "DOUBLE")]
+
+        fieldsNames = [row[0] for row in fieldsNew]
 
         columns = ["OBJECTID", "SHAPE@"] + [observer_offset_field, target_offset_field]
 
-        self.prepareDataColumns(visibility_lines, fields_visibility)
+        farcmap.prepareDataColumns(visibility_lines, fieldsNew)
 
         number_of_LoS = int(arcpy.GetCount_management(visibility_lines).getOutput(0))
 
         arcpy.SetProgressor("step", "Analyzing " + str(number_of_LoS) + " lines of sight...", 0, number_of_LoS, 1)
 
-        with arcpy.da.UpdateCursor(visibility_lines, columns + fields_visibility) as cursor:
+        with arcpy.da.UpdateCursor(visibility_lines, columns + fieldsNames) as cursor:
             for row in cursor:
 
                 points = []
@@ -195,21 +203,6 @@ class AnalyzeLoS(object):
 
         return
 
-    def prepareDataColumns(self, data, columns_list):
-        fieldObjList = arcpy.ListFields(data)
-        fieldNameList = []
-        for field in fieldObjList:
-            if not field.required:
-                fieldNameList.append(field.name)
-
-        for field_vis in columns_list:
-            if any(field_vis in s for s in fieldNameList):
-                arcpy.DeleteField_management(data, field_vis)
-            if field_vis == "Visible" or field_vis == "Horizon_C":
-                arcpy.AddField_management(data, field_vis, "SHORT")
-            else:
-                arcpy.AddField_management(data, field_vis, "DOUBLE")
-
     def analyzeLoS(self, points):
         limit_angle = points[len(points) - 1][4]
         isVisible = 1
@@ -234,7 +227,7 @@ class AnalyzeLoS(object):
             math.radians(max_angle_horizon)) * points[len(points) - 1][2]
         angle_difference_horizon = limit_angle - max_angle_horizon
         slope_LoS_diffence = math.degrees(math.atan((points[len(points) - 1][3] - points[len(points) - 2][3]) / (
-        points[len(points) - 1][2] - points[len(points) - 2][2])))
+        points[len(points) - 1][2] - points[len(points) - 2][2]))) - limit_angle
         fuzzy_visibility = visibility.fuzzyVisibility(points[len(points) - 1][2], self.b1, self.beta, self.h)
 
         return [isVisible, limit_angle, elev_diff, angle_difference_horizon, elev_difference_horizon,
