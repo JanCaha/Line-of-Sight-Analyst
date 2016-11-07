@@ -86,6 +86,8 @@ def makeGlobalLoS(data, maximal_possible_distance, spatial_ref):
     end_point = arcpy.Point()
     polyline_array = arcpy.Array()
 
+    mid_point = arcpy.Point()
+
     with arcpy.da.UpdateCursor(data, ["OID", "SHAPE@"]) as cursor:
         for row in cursor:
             start_point.X = row[1].firstPoint.X
@@ -94,6 +96,10 @@ def makeGlobalLoS(data, maximal_possible_distance, spatial_ref):
             end_point.X = row[1].lastPoint.X
             end_point.Y = row[1].lastPoint.Y
             end_point.Z = row[1].lastPoint.Z
+
+            mid_point.X = row[1].lastPoint.X
+            mid_point.Y = row[1].lastPoint.Y
+            mid_point.Z = row[1].lastPoint.Z
 
             start_pointGeometry = arcpy.PointGeometry(start_point, spatial_ref, True)
             end_pointGeometry = arcpy.PointGeometry(end_point, spatial_ref, True)
@@ -105,6 +111,7 @@ def makeGlobalLoS(data, maximal_possible_distance, spatial_ref):
             end_point.Y = new_end_pointGeometry.centroid.Y
 
             polyline_array.add(start_point)
+            polyline_array.add(mid_point)
             polyline_array.add(end_point)
 
             polyline_new = arcpy.Polyline(polyline_array, spatial_ref, True)
