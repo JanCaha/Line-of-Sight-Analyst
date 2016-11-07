@@ -130,11 +130,22 @@ class OptimizePointsLocation(object):
         number_of_points = int(arcpy.GetCount_management(points_to_optimize).getOutput(0))
         arcpy.SetProgressor("step", "Updating location of points", 0, number_of_points, 1)
 
+        extent = inRas.extent
+
         with arcpy.da.UpdateCursor(optimized_points, ["SHAPE@XY", "SHAPE@"]) as cursor:
             for row in cursor:
 
-                array = arcpy.RasterToNumPyArray(inRas, arcpy.Point(row[0][0] - distance, row[0][1] - distance),
+                columnNumber = int(row[0][0] - extent.XMin / cellSize)
+                rowNumber = int(row[0][1] - extent.YMin / cellSize)
+
+                centerX = extent.XMin + (columnNumber * cellSize) + 0.5 * cellSize
+                centerY = extent.YMin + (rowNumber * cellSize) + 0.5 * cellSize
+
+                array = arcpy.RasterToNumPyArray(inRas, arcpy.Point(centerX - distance, centerY - distance),
                                                  distanceCells * 2, distanceCells * 2, noDataValue)
+
+                # array = arcpy.RasterToNumPyArray(inRas, arcpy.Point(row[0][0] - distance, row[0][1] - distance),
+                #                                 distanceCells * 2, distanceCells * 2, noDataValue)
 
                 maxValue = noDataValue
                 maxX = row[0][0]
@@ -143,7 +154,7 @@ class OptimizePointsLocation(object):
                 for i in range(0, len(array)):
                     for j in range(0, len(array[0])):
                         x = row[0][0] + (j - distanceCells) * cellSize
-                        y = row[0][1] - (i - distanceCells) * cellSize
+                        y = row[0][1] - (i - distanceCells + 1) * cellSize
 
                         if useMask:
                             maskValue = arcpy.RasterToNumPyArray(maskRas, arcpy.Point(x, y), 1, 1, maskNoData)
