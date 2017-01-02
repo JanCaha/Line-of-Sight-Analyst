@@ -5,11 +5,12 @@ import functions_validation as fv
 import functions_visibility as visibility
 import functions_arcmap as farcmap
 
-class AnalyzeLoS(object):
+
+class AnalyseLoS(object):
     def __init__(self):
         """Define the tool (tool name is the name of the class)."""
-        self.label = "Analyze of Lines of Sight"
-        self.description = "A tool for analyzing Lines of Sight between observer and target points."
+        self.label = "Analyse Lines of Sight"
+        self.description = "A tool for analysing Lines of Sight between observer and target points."
         self.canRunInBackground = False
 
     def getParameterInfo(self):

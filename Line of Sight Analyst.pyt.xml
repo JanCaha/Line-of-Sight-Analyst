@@ -5,8 +5,8 @@
 		<CreaTime>10283100</CreaTime>
 		<ArcGISFormat>1.0</ArcGISFormat>
 		<SyncOnce>TRUE</SyncOnce>
-		<ModDate>20161005</ModDate>
-		<ModTime>101708</ModTime>
+		<ModDate>20161220</ModDate>
+		<ModTime>095407</ModTime>
 		<scaleRange>
 			<minScale>150000000</minScale>
 			<maxScale>5000</maxScale>
@@ -14,7 +14,7 @@
 		<ArcGISProfile>ItemDescription</ArcGISProfile>
 	</Esri>
 	<toolbox name="Line of Sight Analyst" alias="losAnalyst">
-		<arcToolboxHelpPath>c:\program files (x86)\arcgis\desktop10.3\Help\gp</arcToolboxHelpPath>
+		<arcToolboxHelpPath>c:\program files (x86)\arcgis\desktop10.4\Help\gp</arcToolboxHelpPath>
 		<toolsets/>
 	</toolbox>
 	<dataIdInfo>
@@ -29,7 +29,7 @@
 			<keyword>line of sight</keyword>
 			<keyword>los</keyword>
 		</searchKeys>
-		<idAbs>A toolbox for visibility analysis. Supports creation and analyses of Lines of Sight and also Horizon extraction from Lines of Sight. Version 0.6.5. 
+		<idAbs>A toolbox for visibility analysis. Supports creation and analyses of Lines of Sight and also Horizon extraction from Lines of Sight. Version 0.6.6.
 
 
 Created by: Jan Caha</idAbs>
