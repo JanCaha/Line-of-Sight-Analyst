@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Export Line of Sight into CSV - Line of Sight Analyst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" media="screen">
+	<link rel="stylesheet" href="/assets/css/custom.min.css">
+	<link rel="stylesheet" href="/assets/css/lightbox.min.css">
+    <link rel="stylesheet" href="/assets/css/flatly_my.css">
+  </head>
+ 
+
+
+<body>
+
+	<nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-primary">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<a href="/" class="navbar-brand">Line of Sight Analyst</a>
+		  
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+			  
+			  <ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+				  <a class="nav-link" href="/tools.html">Tools</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="/manual_citations.html">Manual and Citation</a>
+				</li>
+			  </ul>
+			  
+			  <ul class="nav navbar-nav ml-auto">
+				<li class="nav-item">
+				  <a href ="https://github.com/JanCaha/Line-of-Sight-Analyst"><i class="fa fa-github fa-3x icon-white" aria-hidden="true"></i></a>
+				</li>
+				<li class="nav-item">
+				</li>
+			  </ul>
+			  
+			</div>
+		</div>
+    </nav>
+
+<div class="container">
+
+	<div class="page-header">
+		<h1>Export Line of Sight into CSV</h1>
+	</div>
+
+	<div class="mt-5">
+		<h2>Description</h2>
+		<p>
+		A tool for exporting LoS into format that can be processed outside ArcGIS.
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool parameters</h2>
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Parameter name</th>
+		  <th>Parameter type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Lines of Sight</td>
+		  <td>features - lines</td>
+		  <td>layer containing LoS.</td>
+		</tr>
+		<tr>
+		  <td>Line of Sight ID</td>
+		  <td>id - select box</td>
+		  <td>ID of the LoS to be exported.</td>
+		</tr>
+		<tr class="table-info">
+		  <td>Output file</td>
+		  <td>file</td>
+		  <td>name and locations of the CSV that will be created.</td>
+		</tr>
+		<tr>
+		  <td>Include offsets?</td>
+		  <td>boolean</td>
+		  <td>export only LoS without observer and target offsets or include the offsets in LoS? Default value is to include the offsets.</td>
+		</tr>
+		<tr>
+		  <td>Global Line of Sight?</td>
+		  <td>boolean</td>
+		  <td>is the LoS global? The tool tries to determine if the LoS is global based on typical fields. Warning message is shown if the tool determines that the LoS is global and this option is not checked. Default value is false.</td>
+		</tr>
+		<tr>
+		  <td>Observer point offset</td>
+		  <td>field - double </td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name <strong>observ_offset</strong> from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target point offset</td>
+		  <td>field - double </td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name <strong>target_offset</strong> from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target point X coordinate</td>
+		  <td>field - double </td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name <strong>target_x</strong> from tools in this toolbox then it is selected automatically.
+</td>
+		</tr>
+		<tr>
+		  <td>Target point Y coordinate</td>
+		  <td>field - double </td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name <strong>target_y</strong> from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Use earth curvature corrections?</td>
+		  <td>boolean</td>
+		  <td>should Earth's curvature and refraction corrections be used? Default value is no.</td>
+		</tr>
+		<tr>
+		  <td>Refractivity coefficient</td>
+		  <td>numerical value </td>
+		  <td>coefficient value (default 0.13).</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+
+	<p>
+	Parameters <strong>Observer point offset</strong> and <strong>Target point offset</strong> are summarized in parameter group <strong>Offsets</strong>, parameters <strong>Target point X coordinate</strong> and <strong>Target point Y coordinate</strong> in parameter group <strong>Global Line of Sight</strong> and parameters <strong>Use earth curvature corrections?</strong> and <strong>Refractivity coefficient</strong> in parameter group <strong>Curvature corrections</strong>.
+	<p>
+	
+	<div class="mt-5">
+		<h2>Outputs</h2>
+		<p>CSV file delimited by ";" with header "distance";"elevation" if LoS is local and "distance";"elevation";"target point"  if the LoS is global. Field "target point" have value 1 if the point is target point and 0 otherwise.</p>
+	</div>
+	
+	<div class="mt-5">
+		<h2>Tool</h2>
+		<a href="../../assets/img/export_csv.png" data-lightbox="img1" data-title="Export Line of Sight into CSV tool"><img src="../../assets/img/export_csv.png" alt="Export Line of Sight into CSV tool" class="img-thumbnail w-50" style=""/></a>
+	</div>
+	
+
+	<footer id="footer">
+        <div class="row">
+          <div class="col-lg-12">
+
+            <ul class="list-unstyled">
+              <li class="float-lg-right"><a href="#top">Back to top</a></li>
+            </ul>
+            <p>Made by <strong>Jan Caha</strong>.</p>
+            <p>Code released under the <a href="">GPLv3</a> licence.</p>
+            <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a> v 4.0.0-alpha theme <a href="https://bootswatch.com/4-alpha/flatly/" rel="nofollow">Flatly</a>. Icons from <a href="http://fontawesome.io/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</p>
+
+          </div>
+        </div>
+
+      </footer>
+
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+	<script src="/assets/js/custom.js"></script>
+	<script src="/assets/js/lightbox.min.js"></script>
+	
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Create Global Lines of Sight - Line of Sight Analyst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" media="screen">
+	<link rel="stylesheet" href="/assets/css/custom.min.css">
+	<link rel="stylesheet" href="/assets/css/lightbox.min.css">
+    <link rel="stylesheet" href="/assets/css/flatly_my.css">
+  </head>
+ 
+
+
+<body>
+
+	<nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-primary">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<a href="/" class="navbar-brand">Line of Sight Analyst</a>
+		  
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+			  
+			  <ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+				  <a class="nav-link" href="/tools.html">Tools</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="/manual_citations.html">Manual and Citation</a>
+				</li>
+			  </ul>
+			  
+			  <ul class="nav navbar-nav ml-auto">
+				<li class="nav-item">
+				  <a href ="https://github.com/JanCaha/Line-of-Sight-Analyst"><i class="fa fa-github fa-3x icon-white" aria-hidden="true"></i></a>
+				</li>
+				<li class="nav-item">
+				</li>
+			  </ul>
+			  
+			</div>
+		</div>
+    </nav>
+
+<div class="container">
+
+	<div class="page-header">
+		<h1>Create Global Lines of Sight</h1>
+	</div>
+
+	<div class="mt-5">
+		<h2>Description</h2>
+		<p>
+		This tool is basically the same as <code><a href="/tools/02-create-lines-of-sight/">Create Lines of Sight</a></code> but creates LoS that does not end at target point but goes beyond it and ends at extent of the surface used to define LoS.
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool parameters</h2>
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Parameter name</th>
+		  <th>Parameter type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Surface</td>
+		  <td>raster</td>
+		  <td>surface on which the LoS are determined.</td>
+		</tr>
+		<tr>
+		  <td>Observer points</td>
+		  <td>features - points</td>
+		  <td>locations of observing points.</td>
+		</tr>
+		<tr>
+		  <td>Observer points offset</td>
+		  <td>field - double</td>
+		  <td>field of the layer Observer points that has data type Double. The parameter specifies vertical offset of the observer from the surface.</td>
+		</tr>
+		<tr>
+		  <td>Target points</td>
+		  <td>features - points</td>
+		  <td>locations of target points.</td>
+		</tr>
+		<tr>
+		  <td>Target points offset</td>
+		  <td>field - double</td>
+		  <td>field of the layer Target points that has data type Double. The parameter specifies vertical offset of the observer from the surface.</td>
+		</tr>
+		<tr>
+		  <td>Sampling distance</td>
+		  <td>numeric value</td>
+		  <td>value in units specified by Surface coordinate system that determines how often the points are placed on LoS. Default value is the same as cellsize of Surface.</td>
+		</tr>
+		<tr class="table-info">
+		  <td>Output feature layer</td>
+		  <td>features - lines</td>
+		  <td>output layer.</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+
+	<div class="mt-5">
+		<h2>Outputs</h2>
+		<p>Line feature class with lines-of-sight, that has Z-dimension. Specific fields are <strong>OID_OBSERV</strong>, <strong>observ_offset</strong>, <strong>OID_TARGET</strong> and <strong>target_offset</strong> which are necessary for further analyses. The geometry store coordinates (X,Y and Z) purely from the surface without the offsets which are stored in fields.</p>
+		<p>Since the global LoS does not end at the target point two more fields are necessary to store position of target point on the LoS. Fields <strong>target_x</strong> and <strong>target_y</strong> store coordinates of the target point for LoS and are necessary for further calculations.</p>
+	</div>
+	
+	<div class="mt-5">
+		<h2>Tool</h2>
+		<a href="../../assets/img/create_global_LoS.png" data-lightbox="img1" data-title="Create Global Lines of Sight tool"><img src="../../assets/img/create_global_LoS.png" alt="Create Global Lines of Sight tool" class="img-thumbnail w-50" style=""/></a>
+	</div>
+	
+
+	<footer id="footer">
+        <div class="row">
+          <div class="col-lg-12">
+
+            <ul class="list-unstyled">
+              <li class="float-lg-right"><a href="#top">Back to top</a></li>
+            </ul>
+            <p>Made by <strong>Jan Caha</strong>.</p>
+            <p>Code released under the <a href="">GPLv3</a> licence.</p>
+            <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a> v 4.0.0-alpha theme <a href="https://bootswatch.com/4-alpha/flatly/" rel="nofollow">Flatly</a>. Icons from <a href="http://fontawesome.io/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</p>
+
+          </div>
+        </div>
+
+      </footer>
+
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+	<script src="/assets/js/custom.js"></script>
+	<script src="/assets/js/lightbox.min.js"></script>
+	
+
+</body>
+</html>

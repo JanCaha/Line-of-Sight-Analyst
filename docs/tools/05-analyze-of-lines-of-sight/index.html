@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Analyze of Lines of Sight - Line of Sight Analyst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" media="screen">
+	<link rel="stylesheet" href="/assets/css/custom.min.css">
+	<link rel="stylesheet" href="/assets/css/lightbox.min.css">
+    <link rel="stylesheet" href="/assets/css/flatly_my.css">
+  </head>
+ 
+
+
+<body>
+
+	<nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-primary">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			
+			<a href="/" class="navbar-brand">Line of Sight Analyst</a>
+		  
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+			  
+			  <ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+				  <a class="nav-link" href="/tools.html">Tools</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="/manual_citations.html">Manual and Citation</a>
+				</li>
+			  </ul>
+			  
+			  <ul class="nav navbar-nav ml-auto">
+				<li class="nav-item">
+				  <a href ="https://github.com/JanCaha/Line-of-Sight-Analyst"><i class="fa fa-github fa-3x icon-white" aria-hidden="true"></i></a>
+				</li>
+				<li class="nav-item">
+				</li>
+			  </ul>
+			  
+			</div>
+		</div>
+    </nav>
+
+<div class="container">
+
+	<div class="page-header">
+		<h1>Analyze of Lines of Sight</h1>
+	</div>
+
+	<div class="mt-5">
+		<h2>Description</h2>
+		<p>
+		A tool used to analyse LoS. The tool should be used only on local LoS that connect observer points with target points. There is another tool for analyses of Global LoS.
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool parameters</h2>
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Parameter name</th>
+		  <th>Parameter type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Lines of Sight</td>
+		  <td>features - lines</td>
+		  <td>layer containing LoS.</td>
+		</tr>
+		<tr>
+		  <td>Observer points offset </td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>observ_offset</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target points offset </td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>target_offset</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Object size</td>
+		  <td>numeric value</td>
+		  <td>size of the theoretical observed object.</td>
+		</tr>
+		<tr>
+		  <td>Recognition acuinty</td>
+		  <td>numerical value </td>
+		  <td>acuinty of the observer's eye. Default value is \( 1^\prime \)$ or \( \drac{1}{60} \) of degree which equals to 0.017.</td>
+		</tr>
+		<tr>
+		  <td>Clear visibility distance limit</td>
+		  <td>numerical value</td>
+		  <td>distance on which the user can absolutely clearly see the object with Object size.</td>
+		</tr>
+		<tr>
+		  <td>Use earth curvature corrections?</td>
+		  <td>boolean</td>
+		  <td>should Earth's curvature and refraction corrections be used?</td>
+		</tr>
+		<tr>
+		  <td>Refractivity coefficient</td>
+		  <td>numerical value</td>
+		  <td>coefficient value (default 0.13).</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+	
+	<p>
+	Parameters <strong>Object size</strong>, <strong>Recognition acuinty</strong> and <strong>Clear visibility distance limit</strong> are summarized in parameter group <strong>Fuzzy visibility</strong> as they are related to fuzzy visibility calculation only. Parameters <strong>Use earth curvature corrections?</strong> and <strong>Refractivity coefficient</strong> in parameter group <strong>Curvature corrections</strong>.
+	<p>
+
+	<div class="mt-5">
+		<h2>Outputs</h2>
+		<p>A set of new fieds for the layer <strong>Lines of Sight</strong>:</p>
+		
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Field name</th>
+		  <th>Field type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Visible</td>
+		  <td>Short</td>
+		  <td>value indicating if the target point is visible (1) or invisible (0).</td>
+		</tr>
+		<tr>
+		  <td>ViewAngle</td>
+		  <td>Double</td>
+		  <td>vertical viewing angle from observer to target. Units are degrees.</td>
+		</tr>
+		<tr>
+		  <td>ElevDiff</td>
+		  <td>Double</td>
+		  <td>vertical difference amongst observer and target, negative value indicates that observer is lower then target. Units are the same as used in Lines of Sight.</td>
+		</tr>
+		<tr>
+		  <td>AngleDiff_H</td>
+		  <td>Double</td>
+		  <td>angle difference between viewing angle of target and highest horizon on the LoS. Negative value indicates that the horizon hides target point, possitive value indicates how high above the horizon the target rises. Units are degrees.</td>
+		</tr>
+		<tr>
+		  <td>ElevDiff_H</td>
+		  <td>Double</td>
+		  <td>elevation difference between target point and highest horizon on the LoS. Possitive value indicates how much of the target is visible (from the top towards bottom), negative value indicates how much higher the target had to be to be visible for the observer. Units are the same as used in  Lines of Sight.</td>
+		</tr>
+		<tr>
+		  <td>SlopeDiff</td>
+		  <td>Double</td>
+		  <td>difference between viewing angle from observer to target and slope of LoS towards target. The closer the value to $90^\circ$ the better for observer as the target is more significant. Units are degrees.</td>
+		</tr>
+		<tr>
+		  <td>Horizon_C</td>
+		  <td>Short</td>
+		  <td>number of visible horizons located between observer and target.</td>
+		</tr>
+		<tr>
+		  <td>HorDist</td>
+		  <td>Double</td>
+		  <td>distance from observer to the highest horizon on the LoS. Units are the same as used in  Lines of Sight.</td>
+		</tr>
+		<tr>
+		  <td>FuzzyVis</td>
+		  <td>Double</td>
+		  <td>fuzzy visibility value indicating distinctiveness of the object defined by Fuzzy visibility parameters. Distinctiveness is best if the value is 1 and gets worser as the value approaches 0.</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+	
+	<div class="mt-5">
+		<h2>Tool</h2>
+		<a href="../../assets/img/analyse_LoS.png" data-lightbox="img1" data-title="Analyze of Lines of Sight tool"><img src="../../assets/img/analyse_LoS.png" alt="Analyze of Lines of Sight tool" class="img-thumbnail w-50" style=""/></a>
+	</div>
+	
+
+	<footer id="footer">
+        <div class="row">
+          <div class="col-lg-12">
+
+            <ul class="list-unstyled">
+              <li class="float-lg-right"><a href="#top">Back to top</a></li>
+            </ul>
+            <p>Made by <strong>Jan Caha</strong>.</p>
+            <p>Code released under the <a href="">GPLv3</a> licence.</p>
+            <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a> v 4.0.0-alpha theme <a href="https://bootswatch.com/4-alpha/flatly/" rel="nofollow">Flatly</a>. Icons from <a href="http://fontawesome.io/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</p>
+
+          </div>
+        </div>
+
+      </footer>
+
+</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+	<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	
+	<script src="/assets/js/custom.js"></script>
+	<script src="/assets/js/lightbox.min.js"></script>
+	
+
+</body>
+</html>

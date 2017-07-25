@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700,400italic");
+.bg-inverse {
+  background-color: #18BC9C !important; }
+  .bg-inverse.navbar-inverse .navbar-nav .nav-link:focus, .bg-inverse.navbar-inverse .navbar-nav .nav-link:hover {
+    color: #2C3E50 !important; }
+
+.navbar-brand {
+  margin-right: 2rem; }
+.navbar-nav .nav-item + .nav-item {
+  margin-left: 2rem; }
+.navbar-nav .nav-link {
+  padding-top: 0.5rem; }
+
+.table-success, .table-info, .table-warning, .table-danger {
+  color: #fff; }
+
+.thead-inverse th {
+  background-color: #2C3E50; }
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.active:focus,
+.nav-tabs .nav-link.active:hover,
+.nav-tabs .nav-item.open .nav-link,
+.nav-tabs .nav-item.open .nav-link:focus,
+.nav-tabs .nav-item.open .nav-link:hover {
+  color: #2C3E50; }
+
+.pagination a:hover {
+  text-decoration: none; }
+
+.close {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.4; }
+  .close:hover, .close:focus {
+    opacity: 1; }
+
+.alert .alert-link {
+  color: #fff;
+  text-decoration: underline; }
+
+.progress {
+  height: 10px; }
+  .progress .progress-bar {
+    font-size: 10px;
+    line-height: 10px; }
+
+.icon-white {
+  color: #fff; }
+
+#inputs tr > td:first-child {
+  font-weight: bold;
+  padding-right: 15px; }
+
+#inputs tr > td:first-child + td {
+  font-style: italic;
+  padding-right: 15px; }
