@@ -1,0 +1,120 @@
+\documentclass[11pt]{standalone}
+
+\input{./_preamble.tex}
+
+\usepackage[math]{iwona}
+
+\begin{document}
+
+\tikzstyle{data} = [ellipse, draw, fill=red!20, text badly centered, node distance=5cm, inner sep=2pt, align = center]	
+\tikzstyle{operation} = [rectangle, fill=white, draw, text badly centered, node distance=2cm, inner sep=5pt, align = center]	
+
+\tikzstyle{line} = [draw, ->, -{Latex[length=3mm, width=2mm]}]
+	
+\pgfdeclarelayer{bg}    % declare background layer
+\pgfsetlayers{bg,main}	
+	
+\begin{tikzpicture}[node distance = 2cm, auto]
+	%\draw[step=1cm,gray,very thin] (0,0) grid (20,-10);
+	
+	\node[data, text width = 5em](surface) {Surface \\ \textit{(raster)}};
+	\node[data, right of = surface](observer){Observer points \\ \textit{(vector - points)}};
+	\node[data, right of = observer](target){Target points \\ \textit{(vector - points)}};
+
+	\node[operation, below = 1cm of observer](optObserver){Optimize Point Location};
+	\node[operation, below = 1cm of target](optTarget){Optimize Point Location};
+	
+	\node[data, right = 1cm of optTarget](distanceSearch){Distance for searching \\ \textit{(numerical value)}};
+	\node[data, below = 1cm of distanceSearch](mask){Mask \\ \textit{(raster)}};
+	
+	\node[data, below = 1cm of optObserver](optO){Optimized \\ Observer points \\ \textit{(vector - points)}};
+	\node[data, below = 1cm of optTarget](optT){Optimized \\ Target points \\ \textit{(vector - points)}};
+	
+	\draw[rounded corners, thick, dashed] (2,-1) rectangle (19,-6);
+	\node[rectangle, inner sep=5pt, below right = 0.3cm and -0.3cm of mask](optStep){\textbf{Optional step}};
+	
+	\node[operation, below = 1.5cm of optT](LoS){Create Lines of Sight};
+	\node[operation, below = 1.5cm of optO](GlobalLoS){Create Global Lines of Sight};
+	
+	\node[data, below = 2.5cm of mask](samplingDistance){Sampling distance \\ \textit{(numerical value)}};
+	
+	\node[data, below = 1cm of GlobalLoS](dataGLoS){Global Lines of Sight \\ \textit{(vector - line)}};
+    \node[data, below = 1cm of LoS](dataLoS){Lines of Sight \\ \textit{(vector - line)}};
+    
+    \node[operation, below left= 1.0cm and -3cm of dataLoS](analyzeLoS){Analyze of Lines of Sight};
+    \node[operation, below left= 1.0cm and -3cm of dataGLoS](analyzeGLoS){Analyze Global Lines of Sight};
+    
+    \node[operation, right = 2.5cm of analyzeLoS](exportLoS){Export Line of Sight into CSV};
+    
+    \node[operation, below right= 2.7cm and -1cm of dataLoS](localHor){Extract Local Horizons};
+    \node[operation, below right= 2.7cm and -1cm of dataGLoS](globalHor){Extract Global Horizon};
+     
+    \node[data, below = 1cm of localHor](dataLocHor){Local Horizons \\ \textit{(vector - points)}};
+    \node[data, below = 1cm of globalHor](dataGlobalHor){Global Horizons \\ \textit{(vector - points)}};
+    \node[data, below = 1cm of exportLoS](exportedLoS){Line of Sight \\ \textit{(file - text)}};
+    
+    
+    \begin{pgfonlayer}{bg} 
+	    \path [line] (surface) -- (optObserver);
+	    \path [line] (surface) -- (optTarget);
+	    \path [line] (surface) -- (LoS);
+	    \path [line] (surface) -- (GlobalLoS);
+	    
+	    \path [line] (observer) -- (optObserver);
+	    \path [line] (target) -- (optTarget);
+	    
+	    \path [line] (distanceSearch) -- (optTarget);
+	    \path [line] (distanceSearch) -- (optObserver);
+	    \path [line] (mask) -- (optTarget);
+	    \path [line] (mask) -- (optObserver);
+	    
+	    \path [line] (optTarget) -- (optT);
+	    \path [line] (optObserver) -- (optO);
+	    
+	    \path [line] (optT) -- (LoS);
+	    \path [line] (optO) -- (LoS);
+	    \path [line] (optT) -- (GlobalLoS);
+	    \path [line] (optO) -- (GlobalLoS);
+	    \path [line] (samplingDistance) -- (LoS);
+	    \path [line] (samplingDistance) -- (GlobalLoS);
+	    
+	    \path [line] (LoS) -- (dataLoS);
+	    \path [line] (GlobalLoS) -- (dataGLoS);
+	    
+	    \path [line] (dataLoS) -- (analyzeLoS);
+	    \path [line] (dataGLoS) -- (analyzeGLoS);
+	    
+	    \path [line] (dataLoS) -- (localHor);
+	    \path [line] (dataGLoS) -- (globalHor);
+	    
+	    \path [line] (localHor) -- (dataLocHor);
+	    \path [line] (globalHor) -- (dataGlobalHor);
+	    
+	    \path [line] (dataLoS) -- (exportLoS);
+	    \path [line] (dataGLoS) -- (exportLoS);
+	    
+	    \path [line] (exportLoS) -- (exportedLoS);
+    \end{pgfonlayer}
+    % Place nodes
+    %\node [block] (init) {initialize model};
+    %\node [cloud, left of=init] (expert) {expert};
+    %\node [cloud, right of=init] (system) {system};
+    %\node [block, below of=init] (identify) {identify candidate models};
+    %\node [block, below of=identify] (evaluate) {evaluate candidate models};
+    %\node [block, left of=evaluate, node distance=3cm] (update) {update model};
+    %\node [decision, below of=evaluate] (decide) {is best candidate better?};
+    %\node [block, below of=decide, node distance=3cm] (stop) {stop};
+    
+    % Draw edges
+    %\path [line] (init) -- (identify);
+    %\path [line] (identify) -- (evaluate);
+    %\path [line] (evaluate) -- (decide);
+    %\path [line] (decide) -| node [near start] {yes} (update);
+    %\path [line] (update) |- (identify);
+    %\path [line] (decide) -- node {no}(stop);
+    %\path [line,dashed] (expert) -- (init);
+    %\path [line,dashed] (system) -- (init);
+    %\path [line,dashed] (system) |- (evaluate);
+\end{tikzpicture}
+	
+\end{document}
