@@ -1,0 +1,43 @@
+{% extends "tool-template.j2" %}
+{% block tools %}
+	<tool name="ExtractLocalHorizons" displayname="Extract Local Horizons" toolboxalias="losAnalyst" xmlns="">
+		<arcToolboxHelpPath>i:\software\arcgis\desktop10.3\Help\gp</arcToolboxHelpPath>
+		<parameters>
+			<param name="in_los" displayname="Lines of Sight" type="Required" direction="Input" datatype="Feature Layer" expression="in_los">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Input Lines of Sight in form of Feature Layer.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_id_observer" displayname="ID observer" type="Required" direction="Input" datatype="String" expression="in_id_observer">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Field that specifies ID of observer. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_observer_offset" displayname="Observer points offset" type="Required" direction="Input" datatype="String" expression="in_observer_offset">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Vertical offset of observers from the surface. Specified as field, as each observer point can have different offset.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_id_target" displayname="ID target" type="Required" direction="Input" datatype="String" expression="in_id_target">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Field that specifies ID of target. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_target_offset" displayname="Target points offset" type="Required" direction="Input" datatype="String" expression="in_target_offset">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Vertical offset of the target from the surface. Specified as field, as each target point can have different offset.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_output_layer" displayname="Output feature layer" type="Required" direction="Output" datatype="Feature Layer" expression="in_output_layer">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Resulting vector layer containg &lt;/SPAN&gt;&lt;SPAN&gt;horizons (points) extracted from Lines of Sight&lt;/SPAN&gt;&lt;SPAN&gt;.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_use_curvature" displayname="Use earth curvature corrections?" type="Required" direction="Input" datatype="Boolean" expression="in_use_curvature">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Allows correction for the earth's curvature. Unchecked—No curvature correction will be applied(default). Checked—Curvature correction will be applied. &lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+			<param name="in_ref_coeff" displayname="Refractivity coefficient " type="Required" direction="Input" datatype="Double" expression="in_ref_coeff">
+				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Coefficient of the refraction of visible light in air (default value 0.13).&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
+			</param>
+		</parameters>
+		<summary>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool used to extract horizons from Lines of Sight.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</summary>
+	</tool>
+{% endblock %}	
+{% block dataInfo %}
+		<idCitation>
+			<resTitle>Extract Local Horizons</resTitle>
+		</idCitation>
+		<idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool used to extract horizons from Lines of Sight.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs>
+{% endblock %}	
+{% block keywords %}
+{{super()}}
+			<keyword>horizon</keyword>
+{% endblock %}

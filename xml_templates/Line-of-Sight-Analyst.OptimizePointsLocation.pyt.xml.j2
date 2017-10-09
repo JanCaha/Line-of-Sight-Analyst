@@ -1,19 +1,6 @@
-<metadata xml:lang="cs">
-	<Esri>
-		<CreaDate>20160926</CreaDate>
-		<CreaTime>21400100</CreaTime>
-		<ArcGISFormat>1.0</ArcGISFormat>
-		<SyncOnce>TRUE</SyncOnce>
-		<ModDate>20161005</ModDate>
-		<ModTime>10095800</ModTime>
-		<scaleRange>
-			<minScale>150000000</minScale>
-			<maxScale>5000</maxScale>
-		</scaleRange>
-		<ArcGISProfile>ItemDescription</ArcGISProfile>
-	</Esri>
+{% extends "tool-template.j2" %}
+{% block tools %}
 	<tool name="OptimizePointsLocation" displayname="Optimize Point Location" toolboxalias="losAnalyst" xmlns="">
-		<arcToolboxHelpPath>c:\program files (x86)\arcgis\desktop10.3\Help\gp</arcToolboxHelpPath>
 		<parameters>
 			<param name="in_points_optimize" displayname="Points to be optimized" type="Required" direction="Input" datatype="Feature Layer" expression="in_points_optimize">
 				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Points to be optimized.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
@@ -36,26 +23,15 @@
 		</parameters>
 		<summary>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool for finding highest &lt;/SPAN&gt;&lt;SPAN&gt;raster value&lt;/SPAN&gt;&lt;SPAN&gt;in the neighboorhood of existing point. &lt;/SPAN&gt;&lt;SPAN&gt;The raster used for optimization can be either elevation, or any &lt;/SPAN&gt;&lt;SPAN&gt;terrain &lt;/SPAN&gt;&lt;SPAN&gt;characteristics that &lt;/SPAN&gt;&lt;SPAN&gt;identifies points suitable for better visibility, e.g. local dominance or positive openness as defined by Kolkaj et. al (2016).&lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;T&lt;/SPAN&gt;&lt;SPAN&gt;hese locations have chance to &lt;/SPAN&gt;&lt;SPAN /&gt;&lt;SPAN&gt;enhance visibility. The change can be possitive (better visibility) but there is chance that the visibility can be influenced negatively. The selection of the &lt;/SPAN&gt;&lt;SPAN&gt;higher points can be further better specify by the use of mask, that marks locations that should not be used e.g. the points should be located on the ground and not on the vegetation or buildings. &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;KOKALJ, Žiga, ZAKŠEK, Klemen, OŠTIR, Krištof, PEHANI, Peter and ČOTAR, Klemen, 2016, Relief Visualization Toolbox, ver. 1.3 Manual [online]. Available from: http://iaps.zrc-sazu.si/sites/default/files/rvt_1.3.pdf &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</summary>
 	</tool>
-	<dataIdInfo>
+{% endblock %}	
+{% block dataInfo %}
 		<idCitation>
 			<resTitle>Optimize Point Location</resTitle>
 		</idCitation>
 		<idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;A tool for finding highest &lt;/SPAN&gt;&lt;SPAN&gt;raster value&lt;/SPAN&gt;&lt;SPAN&gt;in the neighboorhood of existing point. &lt;/SPAN&gt;&lt;SPAN&gt;The raster used for optimization can be either elevation, or any &lt;/SPAN&gt;&lt;SPAN&gt;terrain &lt;/SPAN&gt;&lt;SPAN&gt;characteristics that &lt;/SPAN&gt;&lt;SPAN&gt;identifies points suitable for better visibility, e.g. local dominance or positive openness as defined by Kolkaj et. al (2016).&lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;T&lt;/SPAN&gt;&lt;SPAN&gt;hese locations have chance to &lt;/SPAN&gt;&lt;SPAN /&gt;&lt;SPAN&gt;enhance visibility. The change can be possitive (better visibility) but there is chance that the visibility can be influenced negatively. The selection of the &lt;/SPAN&gt;&lt;SPAN&gt;higher points can be further better specify by the use of mask, that marks locations that should not be used e.g. the points should be located on the ground and not on the vegetation or buildings. &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;KOKALJ, Žiga, ZAKŠEK, Klemen, OŠTIR, Krištof, PEHANI, Peter and ČOTAR, Klemen, 2016, Relief Visualization Toolbox, ver. 1.3 Manual [online]. Available from: http://iaps.zrc-sazu.si/sites/default/files/rvt_1.3.pdf &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN /&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs>
-		<idCredit>Jan Caha - creator</idCredit>
-		<searchKeys>
+{% endblock %}
+{% block keywords %}
 			<keyword>raster</keyword>
 			<keyword>location</keyword>
 			<keyword>optimalization</keyword>
-		</searchKeys>
-	</dataIdInfo>
-	<distInfo>
-		<distributor>
-			<distorFormat>
-				<formatName>ArcToolbox Tool</formatName>
-			</distorFormat>
-		</distributor>
-	</distInfo>
-	<mdHrLv>
-		<ScopeCd value="005"/>
-	</mdHrLv>
-</metadata>
+{% endblock %}	

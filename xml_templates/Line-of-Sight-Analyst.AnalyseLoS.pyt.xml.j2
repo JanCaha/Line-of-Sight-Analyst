@@ -1,20 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<metadata xml:lang="cs">
-	<Esri>
-		<CreaDate>20160915</CreaDate>
-		<CreaTime>13185200</CreaTime>
-		<ArcGISFormat>1.0</ArcGISFormat>
-		<SyncOnce>TRUE</SyncOnce>
-		<ModDate>20161009</ModDate>
-		<ModTime>12074700</ModTime>
-		<scaleRange>
-			<minScale>150000000</minScale>
-			<maxScale>5000</maxScale>
-		</scaleRange>
-		<ArcGISProfile>ItemDescription</ArcGISProfile>
-	</Esri>
+{% extends "tool-template.j2" %}
+{% block tools %}
 	<tool name="AnalyseLoS" displayname="Analyse of Lines of Sight" toolboxalias="losAnalyst" xmlns="">
-		<arcToolboxHelpPath>i:\software\arcgis\desktop10.3\Help\gp</arcToolboxHelpPath>
 		<parameters>
 			<param name="in_los" displayname="Lines of Sight" type="Required" direction="Input" datatype="Feature Layer" expression="in_los">
 				<dialogReference>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Input Lines of Sight in form of Feature Layer.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;</dialogReference>
@@ -42,27 +28,10 @@
 		</parameters>
 		<summary>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;This tools calculates several characteristics from the Lines of Sight and adds the result as new fields to the attribute table.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</summary>
 	</tool>
-	<dataIdInfo>
+{% endblock %}	
+{% block dataInfo %}
 		<idCitation>
 			<resTitle>Analyse of Lines of Sight</resTitle>
 		</idCitation>
 		<idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;This tools calculates several characteristics from the Lines of Sight and adds the result as new fields to the attribute table.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs>
-		<idCredit>Jan Caha - creator</idCredit>
-		<searchKeys>
-			<keyword>visibility</keyword>
-			<keyword>visibility analysis</keyword>
-			<keyword>line of sight</keyword>
-			<keyword>los</keyword>
-		</searchKeys>
-	</dataIdInfo>
-	<distInfo>
-		<distributor>
-			<distorFormat>
-				<formatName>ArcToolbox Tool</formatName>
-			</distorFormat>
-		</distributor>
-	</distInfo>
-	<mdHrLv>
-		<ScopeCd value="005"/>
-	</mdHrLv>
-</metadata>
+{% endblock %}
