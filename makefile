@@ -1,7 +1,7 @@
 # directories specification
 ## directory 
 DIR_TEMPLATES := xml_templates
-DIR_DOC := docs_release
+#DIR_DOC := docs_release
 ## directory with python files
 DIR_SRC := src
 DIR_RELEASE := release
@@ -32,7 +32,7 @@ xml: $(FILES_J)
 # empty release directory, copy docs and src to release
 copy:
 	rm -rf $(DIR_RELEASE)/*
-	cp -R $(DIR_DOC) $(DIR_RELEASE)/$(DIR_DOC)
+#	cp -R $(DIR_DOC) $(DIR_RELEASE)/$(DIR_DOC)
 	cp -R $(DIR_SRC)/* $(DIR_RELEASE)
 	cp $(DIR_MANUAL)/*.pdf $(DIR_RELEASE)
 
