@@ -1,0 +1,7 @@
+
+.idea/*
+delete_pyc_files.bat
+/release.zip
+/release
+*.pdf
+/src/los/test.py
