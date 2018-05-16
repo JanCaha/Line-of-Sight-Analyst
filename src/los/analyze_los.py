@@ -174,7 +174,7 @@ class AnalyseLoS(object):
 
                 start_point_x = float(poi[0].split(" ")[0])
                 start_point_y = float(poi[0].split(" ")[1])
-                observer_elev = float(poi[0].split(" ")[2]) +  observer_offset
+                observer_elev = float(poi[0].split(" ")[2]) + observer_offset
 
                 # for every point do this
                 for i in range(0, len(poi)):
