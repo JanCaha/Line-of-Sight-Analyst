@@ -87,7 +87,7 @@ class ExtractGlobalHorizons(object):
             parameterType="Required",
             direction="Input",
             category="Curvature corrections")
-        param8.value = False
+        param8.value = True
 
         param9 = arcpy.Parameter(
             displayName="Refractivity coefficient ",

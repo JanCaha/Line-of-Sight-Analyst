@@ -15,9 +15,17 @@
 \usepackage{authblk}
 \usepackage{listings}
 
+\lstset{
+	escapeinside={(*@}{@*)}
+}
+
+
 \bibliographystyle{chicago}
 
-\title{A Guide to \textbf{Line of Sight Analyst} toolbox for ArcGIS 10.x (ver. 0.6.6)}
+\newcommand{\currentVersion}{0.7.0}
+\newcommand{\currentYear}{2018}
+
+\title{A Guide to \textbf{Line of Sight Analyst} toolbox for ArcGIS 10.x (ver. \currentVersion{})}
 
 \author[*]{Jan Caha}
 \affil[*]{email: \textit{jan.caha@outlook.com}}
@@ -38,6 +46,16 @@ While \textit{Line of Sight} can be used to determine if target points are visib
 \textbf{Line of Sight Analyst} provides tools for easier creation of LoS, analysing LoS and extracting important points from LoS. Besides these functions that are directly related to the visibility analysis the toolbox contains a tool for optimization of point location based on raster values.
 
 \section{News}
+
+\subsection*{ver. 0.7.0}
+\begin{itemize}
+	\item parameter \emph{Use earth curvature and refraction corrections?} is now by default checked for all tools
+\end{itemize}
+
+\subsection*{ver. 0.6.7}
+\begin{itemize}
+	\item bug fixed in elevation difference to global horizon calculation
+\end{itemize}
 
 \subsection*{ver. 0.6.6}
 \begin{itemize}
@@ -144,7 +162,7 @@ A tool for exporting LoS into format that can be processed outside ArcGIS.
 	\item \textbf{Target point offset} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_offset}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Target point X coordinate} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_x}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Target point Y coordinate} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_y}) from tools in this toolbox then it is selected automatically.
-	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used? Default value is no.
+	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used? Default value is yes.
 	\item \textbf{Refractivity coefficient} - \textit{numerical value}  - coefficient value (default 0.13).
 \end{itemize}
 
@@ -166,7 +184,7 @@ A tool used to analyse LoS. The tool should be used only on local LoS that conne
 	\item \textbf{Object size} - \textit{numeric value} - size of the theoretical observed object.
 	\item \textbf{Recognition acuinty} - \textit{numerical value} - recognition acuinty of the observer's eye. Default value is $1^\prime$ or $1/60$ of degree which equals to 0.017. 
 	\item \textbf{Clear visibility distance limit} - \textit{numerical value} - maximal distance on which the user can absolutely clearly see the object with Object size.
-	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used?
+	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used? Default value is yes.
 	\item \textbf{Refractivity coefficient} - \textit{numerical value}  - coefficient value (default 0.13).
 \end{itemize}
 
@@ -200,7 +218,7 @@ For purpose of these analyses the target point can not be a global horizon. This
 	\item \textbf{Target points offset} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_offset}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Target point X coordinate} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_x}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Target point Y coordinate} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_y}) from tools in this toolbox then it is selected automatically.
-	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used?
+	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used? Default value is yes.
 	\item \textbf{Refractivity coefficient} - \textit{numerical value}  - coefficient value (default 0.13).
 \end{itemize}
 
@@ -232,7 +250,7 @@ A tool used to extract visible horizons from local LoS.
 	\item \textbf{ID target} - \textit{Short} - field of the layer \textbf{Lines of Sight} that has data type Short. If the field has default name (\textit{OID\_TARGET}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Target points offset} - \textit{field - double} - field of the layer \textbf{Lines of Sight} that has data type Double. If the field has default name (\textit{target\_offset}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Output feature layer} - \textit{features - points} - output layer.
-	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used?
+	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used? Default value is yes.
 	\item \textbf{Refractivity coefficient} - \textit{numerical value}  - coefficient value (default 0.13).
 \end{itemize}
 
@@ -263,7 +281,7 @@ A tool used to extract visible global horizon from global LoS.
 	\item \textbf{Target point X coordinate} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_x}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Target point Y coordinate} - \textit{field - double} - field of the layer Lines of Sight that has data type Double. If the field has default name (\textit{target\_y}) from tools in this toolbox then it is selected automatically.
 	\item \textbf{Output feature layer} - \textit{features - points} - output layer.
-	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used?
+	\item \textbf{Use earth curvature corrections?} - \textit{boolean} - should Earth's curvature and refraction corrections be used? Default value is yes.
 	\item \textbf{Refractivity coefficient} - \textit{numerical value}  - coefficient value (default 0.13).
 \end{itemize}
 
@@ -286,6 +304,12 @@ Besides that there are several attributes of horizons:
 	\item No issues are known at this time.
 \end{itemize}
 
+\section{Solved Issues}
+
+\begin{itemize}
+	\item prior to version 0.6.6 \textbf{ElevDiff\_GH} (elevation difference between target point and global horizon on the LoS) was not calculated correctly
+\end{itemize}
+
 \section{Future Plans}
 
 \begin{itemize}
@@ -301,17 +325,17 @@ If you use this toolbox in publication, please consider using this citation of m
 \noindent Cite as:
 \vspace{1em}
 
-\noindent Caha, Jan. 2017. “A Guide to Line of Sight Analyst Toolbox for ArcGIS 10.x (Ver. 0.6.6).”  \url{https://jancaha.github.io/Line-of-Sight-Analyst/assets/files/Line\_of\_Sight\_Analyst.pdf}.
+\noindent Caha, Jan. \currentYear{}. “A Guide to Line of Sight Analyst Toolbox for ArcGIS 10.x (ver. \currentVersion{}).”  \url{https://jancaha.github.io/Line-of-Sight-Analyst/assets/files/Line\_of\_Sight\_Analyst.pdf}.
 \vspace{1em}
 
 \noindent or in bibtex:
 \vspace{1em}
 \begin{lstlisting}
-@TechReport{LoSAnalyst2017,
+@TechReport{LoSAnalyst,
 author = {Jan Caha},
 title  = {Line of Sight Analyst toolbox for ArcGIS 10.x
-         (ver. 0.6.6)},
-year   = {2017},
+         (ver. (*@\currentVersion{}@*))},
+year   = {(*@\currentYear{}@*)},
 url    = {https://jancaha.github.io/Line-of-Sight-Analyst/
           assets/files/Line_of_Sight_Analyst.pdf},
 }

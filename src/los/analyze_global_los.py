@@ -70,7 +70,7 @@ class AnalyseGlobalLoS(object):
             parameterType="Required",
             direction="Input",
             category="Curvature corrections")
-        param5.value = False
+        param5.value = True
 
         param6 = arcpy.Parameter(
             displayName="Refractivity coefficient ",

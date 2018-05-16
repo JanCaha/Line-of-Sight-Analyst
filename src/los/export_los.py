@@ -98,7 +98,7 @@ class ExportLoS(object):
             parameterType="Required",
             direction="Input",
             category="Curvature corrections")
-        param9.value = False
+        param9.value = True
 
         param10 = arcpy.Parameter(
             displayName="Refractivity coefficient ",

@@ -69,7 +69,7 @@ class ExtractLocalHorizons(object):
             parameterType="Required",
             direction="Input",
             category="Curvature corrections")
-        param6.value = False
+        param6.value = True
 
         param7 = arcpy.Parameter(
             displayName="Refractivity coefficient",
