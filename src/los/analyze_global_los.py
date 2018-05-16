@@ -226,10 +226,8 @@ class AnalyseGlobalLoS(object):
                     if points[i][2] > points[target_index][2] and points[i][4] > points[target_index][4]:
                         horizon_count += 1
 
-        if horizon_distance < 0:
-            elev_difference_horizon = points[target_index][3] - points[0][3] - math.tan(math.radians(max_angle_horizon)) * points[target_index][2]
-        else:
-            elev_difference_horizon = points[horizon_index][3] - points[0][3] - math.tan(math.radians(points[target_index][4])) * points[horizon_index][2]
+        elev_difference_horizon = points[target_index][3] - (points[0][3] + math.tan(math.radians(points[horizon_index][4]))*points[target_index][2])
+
 
         angle_difference_horizon = limit_angle - max_angle_horizon
 
