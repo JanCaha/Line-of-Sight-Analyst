@@ -1,0 +1,78 @@
+---
+layout: default
+title: Create Global Lines of Sight
+description: creates LoS that does not end at target point but goes beyond it and ends at extent of the surface used to define LoS
+---
+
+	<div class="page-header">
+		<h1>{{ page.title }}</h1>
+	</div>
+
+	<div class="mt-5">
+		<h2>Description</h2>
+		<p>
+		This tool is basically the same as <code><a href="{% link _tools/02_Create_Lines_of_Sight.html %}">Create Lines of Sight</a></code> but creates LoS that does not end at target point but goes beyond it and ends at extent of the surface used to define LoS.
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool parameters</h2>
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Parameter name</th>
+		  <th>Parameter type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Surface</td>
+		  <td>raster</td>
+		  <td>surface on which the LoS are determined.</td>
+		</tr>
+		<tr>
+		  <td>Observer points</td>
+		  <td>features - points</td>
+		  <td>locations of observing points.</td>
+		</tr>
+		<tr>
+		  <td>Observer points offset</td>
+		  <td>field - double</td>
+		  <td>field of the layer Observer points that has data type Double. The parameter specifies vertical offset of the observer from the surface.</td>
+		</tr>
+		<tr>
+		  <td>Target points</td>
+		  <td>features - points</td>
+		  <td>locations of target points.</td>
+		</tr>
+		<tr>
+		  <td>Target points offset</td>
+		  <td>field - double</td>
+		  <td>field of the layer Target points that has data type Double. The parameter specifies vertical offset of the observer from the surface.</td>
+		</tr>
+		<tr>
+		  <td>Sampling distance</td>
+		  <td>numeric value</td>
+		  <td>value in units specified by Surface coordinate system that determines how often the points are placed on LoS. Default value is the same as cellsize of Surface.</td>
+		</tr>
+		<tr class="table-info">
+		  <td>Output feature layer</td>
+		  <td>features - lines</td>
+		  <td>output layer.</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+
+	<div class="mt-5">
+		<h2>Outputs</h2>
+		<p>Line feature class with lines-of-sight, that has Z-dimension. Specific fields are <strong>OID_OBSERV</strong>, <strong>observ_offset</strong>, <strong>OID_TARGET</strong> and <strong>target_offset</strong> which are necessary for further analyses. The geometry store coordinates (X,Y and Z) purely from the surface without the offsets which are stored in fields.</p>
+		<p>Since the global LoS does not end at the target point two more fields are necessary to store position of target point on the LoS. Fields <strong>target_x</strong> and <strong>target_y</strong> store coordinates of the target point for LoS and are necessary for further calculations.</p>
+	</div>
+	
+	<div class="mt-5">
+		<h2>Tool</h2>
+		{% lightbox assets/img/create_global_LoS.png --thumb="assets/img/create_global_LoS.png" ---data="img1" --title="Create Global Lines of Sight tool" --alt="Create Global Lines of Sight tool" --class="img-thumbnail w-50" %}
+	</div>
+	

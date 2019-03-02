@@ -1,0 +1,120 @@
+---
+layout: default
+title: Extract Local Horizons
+description: tool used to extract visible horizons from local LoS
+---
+
+	<div class="page-header">
+		<h1>{{ page.title }}</h1>
+	</div>
+
+	<div class="mt-5">
+		<h2>Description</h2>
+		<p>
+		A tool used to extract visible horizons from local LoS.
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool parameters</h2>
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Parameter name</th>
+		  <th>Parameter type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Lines of Sight</td>
+		  <td>features - lines</td>
+		  <td>layer containing LoS.</td>
+		</tr>
+		<tr>
+		  <td>ID observer</td>
+		  <td>Short</td>
+		  <td>field of the layer Lines of Sight  that has data type Short. If the field has default name (<strong>OID_OBSERV<strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Observer points offset</td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight  that has data type Double. If the field has default name (<strong>observ_offset</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>ID target</td>
+		  <td>Short</td>
+		  <td> field of the layer Lines of Sight  that has data type Short. If the field has default name (<strong>OID_TARGET</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target points offset</td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>target_offset</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr class="table-info">
+		  <td>Output feature layer</td>
+		  <td>features - points</td>
+		  <td>output layer.</td>
+		</tr>
+		<tr>
+		  <td>Use earth curvature corrections?</td>
+		  <td>boolean</td>
+		  <td>should Earth's curvature and refraction corrections be used?</td>
+		</tr>
+		<tr>
+		  <td>Refractivity coefficient</td>
+		  <td>numerical value</td>
+		  <td>coefficient value (default 0.13).</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+
+	<p>
+	Parameters <strong>Use earth curvature corrections?</strong> and <strong>Refractivity coefficient</strong> in parameter group <strong>Curvature corrections</strong>.
+	<p>
+
+	<div class="mt-5">
+		<h2>Outputs</h2>
+		<p>Point feature class containing horizons, that has Z-dimension. The feature class has fields that allow connection with observer points (<strong>OID_OBSERV</strong>), target points (<strong>OID_TARGET</strong>) and also LoS (<strong>OID_LoS</strong>).</p>
+		
+		<p>Besides that there are several attributes of horizons:</p>
+
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Field name</th>
+		  <th>Field type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Hor_Type</td>
+		  <td>Short</td>
+		  <td>value indicating if the horizon is highest horizon of LoS (value 1) or not (value 0).</td>
+		</tr>
+		<tr>
+		  <td>ViewAngle</td>
+		  <td>Double</td>
+		  <td>viewing angle between observer point and the horizon.</td>
+		</tr>
+		<tr>
+		  <td>AngleDiff_H</td>
+		  <td>Double</td>
+		  <td>angle difference between viewing angle of this horizon and previous horizon. Value zero means that there is no previous horizon.</td>
+		</tr>
+		<tr>
+		  <td>Dist_Observ</td>
+		  <td>Double</td>
+		  <td>distance from horizon to the observer.</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool</h2>
+		{% lightbox assets/img/extract_local_horizons.png --thumb="assets/img/extract_local_horizons.png" ---data="img1" --title="Extract Local Horizons tool" --alt="Extract Local Horizons tool" --class="img-thumbnail w-50" %}
+	</div>
+	

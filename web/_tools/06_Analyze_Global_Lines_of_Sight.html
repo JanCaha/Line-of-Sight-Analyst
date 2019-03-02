@@ -1,0 +1,132 @@
+---
+layout: default
+title: Analyze Global Lines of Sight
+description: tool used to analyse LoS
+---
+
+	<div class="page-header">
+		<h1>{{ page.title }}</h1>
+	</div>
+
+	<div class="mt-5">
+		<h2>Description</h2>
+		<p>
+		A tool used to analyse Global LoS. The tool should not be used for local LoS that connect only observer to target.
+		</p>
+		
+		<p>
+		For purpose of these analyses the target point can not be a global horizon. This assumption allows to properly calculate all the characteristics of global LoS.
+		</p>
+	</div>
+
+	<div class="mt-5">
+		<h2>Tool parameters</h2>
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Parameter name</th>
+		  <th>Parameter type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Global Lines of Sight </td>
+		  <td>features - lines</td>
+		  <td>layer containing LoS.</td>
+		</tr>
+		<tr>
+		  <td>Observer points offset </td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>observ_offset</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target points offset </td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>target_offset</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target point X coordinate </td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>target_x</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Target point Y coordinate</td>
+		  <td>field - double</td>
+		  <td>field of the layer Lines of Sight that has data type Double. If the field has default name (<strong>target_y</strong>) from tools in this toolbox then it is selected automatically.</td>
+		</tr>
+		<tr>
+		  <td>Use earth curvature corrections?</td>
+		  <td>boolean</td>
+		  <td>should Earth's curvature and refraction corrections be used?</td>
+		</tr>
+		<tr>
+		  <td>Refractivity coefficient</td>
+		  <td>numerical value</td>
+		  <td>coefficient value (default 0.13).</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+
+	<p>
+	Parameters <strong>Use earth curvature corrections?</strong> and <strong>Refractivity coefficient</strong> in parameter group <strong>Curvature corrections</strong>.
+	<p>
+
+	<div class="mt-5">
+		<h2>Outputs</h2>
+		<p>A set of new fieds for the layer <strong>Global Lines of Sight</strong>:</p>
+		
+		<table id="inputs" class="table">
+		<tbody>
+		<thead class="thead-inverse">
+		<tr>
+		  <th>Field name</th>
+		  <th>Field type</th>
+		  <th>Description</th>
+		</tr>
+		</thead>
+		<tr>
+		  <td>Visible</td>
+		  <td>Short</td>
+		  <td>value indicating if the target point is visible (1) or invisible (0).</td>
+		</tr>
+		<tr>
+		  <td>ViewAngle</td>
+		  <td>Double</td>
+		  <td>vertical viewing angle from observer to target. Units are degrees.</td>
+		</tr>
+		<tr>
+		  <td>ElevDiff</td>
+		  <td>Double</td>
+		  <td>vertical difference amongst observer and target, negative value indicates that observer is lower then target. Units are the same as used in Lines of Sight.</td>
+		</tr>
+		<tr>
+		  <td>AngleDiff_GH </td>
+		  <td>Double</td>
+		  <td>angle difference between viewing angle of target and the global horizon on the LoS. Negative value indicates that the horizon is higher then target point, possitive value indicates that target point is highest point on LoS. Negative value does not mean that the target point is invisible as the global horizon can be located behind the target point. Units are degrees.</td>
+		</tr>
+		<tr>
+		  <td>ElevDiff_GH</td>
+		  <td>Double</td>
+		  <td>elevation difference between target point and global horizon on the LoS. Positive value indicates how much of the target is visible against sky (from the top towards bottom), negative value indicates how much higher the target had to be to reach global horizon. Units are the same as used in Lines of Sight.</td>
+		</tr>
+		<tr>
+		  <td>HorDist</td>
+		  <td>Double</td>
+		  <td>distance between global horizon and target point. Negative value means that global horizon is located before target point, positive value means that it is located behind the target.</td>
+		</tr>
+		<tr>
+		  <td>Horizon_C</td>
+		  <td>Short</td>
+		  <td>number of visible horizons located behind target point.</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
+	
+	<div class="mt-5">
+		<h2>Tool</h2>
+		{% lightbox assets/img/analyse_global_LoS.png --thumb="assets/img/analyse_global_LoS.png" ---data="img1" --title="Analyze Global Lines of Sight tool" --alt="Analyze Global Lines of Sight tool" --class="img-thumbnail w-50" %}
+	</div>
+	
