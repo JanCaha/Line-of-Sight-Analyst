@@ -1,0 +1,48 @@
+site_name: Line of Sight Analyst
+site_url: https://jancaha.github.io/Line-of-Sight-Analyst/
+site_description: Plugin for QGIS for processing using R language
+site_author: Jan Caha
+repo_url: https://github.com/JanCaha/Line-of-Sight-Analyst
+edit_uri: ""
+
+copyright: Copyright &copy; 2019 <a href="https://twitter.com/cahik13">Jan Caha</a>.
+
+docs_dir: pages
+site_dir: docs
+
+theme: 
+  name: flatly
+  custom_dir: custom_theme
+  
+nav:
+    - Home: index.md
+    - Manual and Citation: manual_citations.md
+    - Tools:
+        - Optimize Point Location: 01_Optimize_Point_Location.md
+        - Create Lines of Sight: 02_Create_Lines_of_Sight.md
+        - Create Global Lines of Sight: 03_Create_Global_Lines_of_Sight.md
+        - Export Line of Sight into CSV: 04_Export_Line_of_Sight_into_CSV.md
+        - Analyze of Lines of Sight: 05_Analyze_of_Lines_of_Sight.md
+        - Analyze Global Lines of Sight: 06_Analyze_Global_Lines_of_Sight.md
+        - Extract Local Horizons: 07_Extract_Local_Horizons.md
+        - Extract Global Horizon: 08_Extract_Global_Horizon.md
+
+extra_javascript: 
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+markdown_extensions:
+    - mdx_math
+
+plugins:
+    - search
+    - markdownextradata: {}
+    
+extra:
+  toolbox:
+    version: 0.7.0
+    release_year: 2018
+    licence: GPLv3
+    licence_link: https://www.gnu.org/licenses/gpl-3.0.en.html
+    github_link: https://github.com/JanCaha/Line-of-Sight-Analyst
+    github_issue: https://github.com/JanCaha/Line-of-Sight-Analyst/issues
+    github_relases: https://github.com/JanCaha/Line-of-Sight-Analyst/releases    

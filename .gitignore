@@ -5,3 +5,4 @@ delete_pyc_files.bat
 /release
 *.pdf
 /src/los/test.py
+/web/.sass-cache
