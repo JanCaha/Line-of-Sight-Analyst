@@ -1,6 +1,6 @@
 # Manual and Citation
 
-The manual for the toolbox is available [here](./pages/assets/files/Line_of_Sight_Analyst.pdf).
+The manual for the toolbox is available [here](./assets/files/Line_of_Sight_Analyst.pdf).
 			
 If you use this toolbox in publication, please consider using these citation of my work.
 

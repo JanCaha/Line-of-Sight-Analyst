@@ -1,8 +1,7 @@
-
 .idea/*
 delete_pyc_files.bat
 /release.zip
 /release
-*.pdf
+/manual/*.pdf
 /src/los/test.py
 /web/.sass-cache
