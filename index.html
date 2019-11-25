@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Plugin for QGIS for processing using R language">
+        <meta name="author" content="Jan Caha">
+        <link rel="canonical" href="https://jancaha.github.io/Line-of-Sight-Analyst/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>Line of Sight Analyst</title>
+        <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/docco.min.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap-3.0.3.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Collapsed navigation -->
+                <div class="navbar-header">
+                    <!-- Expander button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href=".">Line of Sight Analyst</a>
+                </div>
+
+                <!-- Expanded navigation -->
+                <div class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href=".">Home</a>
+                            </li>
+                            <li >
+                                <a href="manual_citations/">Manual and Citation</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li >
+    <a href="01_Optimize_Point_Location/">Optimize Point Location</a>
+</li>
+                                    
+<li >
+    <a href="02_Create_Lines_of_Sight/">Create Lines of Sight</a>
+</li>
+                                    
+<li >
+    <a href="03_Create_Global_Lines_of_Sight/">Create Global Lines of Sight</a>
+</li>
+                                    
+<li >
+    <a href="04_Export_Line_of_Sight_into_CSV/">Export Line of Sight into CSV</a>
+</li>
+                                    
+<li >
+    <a href="05_Analyze_of_Lines_of_Sight/">Analyze of Lines of Sight</a>
+</li>
+                                    
+<li >
+    <a href="06_Analyze_Global_Lines_of_Sight/">Analyze Global Lines of Sight</a>
+</li>
+                                    
+<li >
+    <a href="07_Extract_Local_Horizons/">Extract Local Horizons</a>
+</li>
+                                    
+<li >
+    <a href="08_Extract_Global_Horizon/">Extract Global Horizon</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+
+                            <li>
+                                <a href="https://github.com/JanCaha/Line-of-Sight-Analyst"><i class="fa fa-github"></i> GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#introduction">Introduction</a></li>
+            <li><a href="#releases">Releases</a></li>
+            <li><a href="#licence">Licence</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#known-issues">Known Issues</a></li>
+            <li><a href="#future-plans">Future Plans</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="introduction">Introduction</h1>
+<p><strong>Line of Sight Analyst</strong> toolbox is a Python toolbox for <em>ArcGIS</em> of version <em>10.x</em>. The tool aims to extend possibilities provided by existing tools <em>Construct Sight Lines</em> and <em>Line of Sight</em> in <em>ArcGIS</em> <em>3D Analyst's Visibility</em> toolbox.</p>
+<p>While <em>Line of Sight</em> can be used to determine if target points are visible from observer points, which parts of the line-of-sight (LoS) are visible and invisible and where is the main obstacle located on LoS. These informations form an important part of the visibility information, however, these are often inadequate for proper assessment of visibility. Complete visibility assessment requires calculation of several LoS characteristics that can not be done by existing tools in <em>ArcGIS</em>.</p>
+<p><strong>Line of Sight Analyst</strong> provides tools for easier creation of LoS, analysing LoS and extracting important points from LoS. Besides these functions that are directly related to the visibility analysis the toolbox contains a tool for optimization of point location based on raster values.</p>
+<h2 id="releases">Releases</h2>
+<p>Releases are available at <a href="https://github.com/JanCaha/Line-of-Sight-Analyst/releases">GitHub</a>. Last release is 0.7.0 and it is public since 2018.</p>
+<h2 id="licence">Licence</h2>
+<p>The toolbox is released under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPLv3</a></p>
+<h2 id="news">News</h2>
+<h3 id="ver-070">ver. 0.7.0</h3>
+<ul>
+<li>Parameter <em>Use earth curvature and refraction corrections?</em> is now by default checked for all tools.</li>
+</ul>
+<h3 id="ver-067">ver. 0.6.7</h3>
+<ul>
+<li>Bug fixed in elevation difference to global horizon calculation.</li></li>
+</ul>
+<h3 id="ver-066">ver. 0.6.6</h3>
+<ul>
+<li>Minor bug fixes and description texts clarification.</li>
+</ul>
+<h3 id="ver-060">ver. 0.6.0</h3>
+<ul>
+<li>Added Earth curvature and atmospheric refraction corrections for all relevant tools.</li>
+</ul>
+<h3 id="ver-051">ver. 0.5.1</h3>
+<ul>
+<li>First public release.</li>
+</ul>
+<h2 id="known-issues">Known Issues</h2>
+<ul>
+<li>No issues are known at this time.</li>
+<li>If you found an error feel free to create Issue at <a href="https://github.com/JanCaha/Line-of-Sight-Analyst/issues">GitHub</a>.</li>
+</ul>
+<h2 id="future-plans">Future Plans</h2>
+<ul>
+<li>Future versions will include suggestions from users and testers, if there will be any.</li>
+<li>There plans for tools that would deal with linear horizons (definition, extraction from the surface and evaluation).</li>
+</ul></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+                <p>Copyright &copy; 2019 <a href="https://twitter.com/cahik13">Jan Caha</a>.</p>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-11-25 06:44:14
+-->
