@@ -1,0 +1,36 @@
+name: github pages
+
+on:
+  push:
+    paths: web/**
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
+        architecture: 'x64'
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install mkdocs
+        python3 -m pip install MarkdownHighlight
+        python3 -m pip install mkdocs-bootswatch
+        python3 -m pip install mkdocs-markdownextradata-plugin
+        python3 -m pip install https://github.com/mitya57/python-markdown-math/archive/master.zip
+    - name: Build
+      run: |
+        mkdocs build --config-file ./web/mkdocs.yml
+        touch web/docs/.nojekyll
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v2.5.1
+      env:
+        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        PUBLISH_BRANCH: gh-pages
+        PUBLISH_DIR: ./web/docs
