@@ -1,53 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/manual_citations/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/01_Optimize_Point_Location/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/02_Create_Lines_of_Sight/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/03_Create_Global_Lines_of_Sight/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/04_Export_Line_of_Sight_into_CSV/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/05_Analyze_of_Lines_of_Sight/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/06_Analyze_Global_Lines_of_Sight/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/07_Extract_Local_Horizons/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
-    </url>
-    <url>
+    </url><url>
      <loc>https://jancaha.github.io/Line-of-Sight-Analyst/08_Extract_Global_Horizon/</loc>
-     <lastmod>2019-11-25</lastmod>
+     <lastmod>2021-01-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
