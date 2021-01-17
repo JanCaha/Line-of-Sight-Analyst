@@ -2,7 +2,9 @@ name: github pages
 
 on:
   push:
-    paths: web/**
+    paths:
+    - "web/**"
+    - ".github/workflows/mkdocs_build_deploy.yaml"
 
 jobs:
   build-deploy:
@@ -24,13 +26,15 @@ jobs:
         python3 -m pip install mkdocs-bootswatch
         python3 -m pip install mkdocs-markdownextradata-plugin
         python3 -m pip install https://github.com/mitya57/python-markdown-math/archive/master.zip
+        
     - name: Build
       run: |
         mkdocs build --config-file ./web/mkdocs.yml
         touch web/docs/.nojekyll
+
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v2.5.1
+      uses: peaceiris/actions-gh-pages@v3
       env:
-        ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PUBLISH_BRANCH: gh-pages
         PUBLISH_DIR: ./web/docs
