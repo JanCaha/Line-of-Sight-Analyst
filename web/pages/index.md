@@ -1,3 +1,7 @@
+# STATUS
+
+The package is deprecated. The new iteration of the tool is available for [QGIS](https://qgis.org/en/site/) as a plugin named [LoS Tools](https://github.com/JanCaha/qgis_los_tools).
+
 # Introduction
 
 **Line of Sight Analyst** toolbox is a Python toolbox for *ArcGIS* of version *10.x*. The tool aims to extend possibilities provided by existing tools *Construct Sight Lines* and *Line of Sight* in *ArcGIS* *3D Analyst's Visibility* toolbox.
