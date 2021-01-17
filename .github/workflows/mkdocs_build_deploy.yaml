@@ -26,7 +26,7 @@ jobs:
         python3 -m pip install mkdocs-bootswatch
         python3 -m pip install mkdocs-markdownextradata-plugin
         python3 -m pip install https://github.com/mitya57/python-markdown-math/archive/master.zip
-        
+
     - name: Build
       run: |
         mkdocs build --config-file ./web/mkdocs.yml
@@ -35,6 +35,6 @@ jobs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH: gh-pages
-        PUBLISH_DIR: ./web/docs
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ./web/docs
