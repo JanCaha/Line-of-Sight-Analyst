@@ -57,7 +57,7 @@ def updateLoS(los_temp, los_final, sightlines, target_points, isGlobal):
     id_sightlines = arcpy.Describe(sightlines).OIDFieldName
     id_target_points = arcpy.Describe(target_points).OIDFieldName
 
-    with arcpy.da.UpdateCursor(los_final,fieldList) as cursor_LoS:
+    with arcpy.da.UpdateCursor(los_final, fieldList) as cursor_LoS:
         for row_LoS in cursor_LoS:
 
             with arcpy.da.SearchCursor(sightlines, [id_sightlines, "SHAPE@", "ID_OBSERV", "ID_TARGET"],

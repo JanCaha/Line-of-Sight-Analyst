@@ -184,6 +184,7 @@ class AnalyseGlobalLoS(object):
 
                     if useCurvatures:
                         z = visibility.curvatureCorrections(z, dist, refCoeff)
+                        target_offset = visibility.curvatureCorrections(target_offset, dist, refCoeff)
 
                     if i == 0:
                         points.append([x, y, 0, observer_elev, -90])
